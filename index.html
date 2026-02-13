@@ -3,37 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinical Decision Support Tools</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>MedFlow Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: #fff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .tool-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Welcome to the Clinical Decision Support Tools</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Tools</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section>
-            <h2>What are Clinical Decision Support Tools?</h2>
-            <p>Clinical decision support tools are designed to enhance healthcare delivery by providing timely, relevant information to assist healthcare professionals in making clinical decisions. They include a wide range of applications, from simple reminders to complex diagnostic systems.</p>
-        </section>
-        <section>
-            <h2>Featured Tools</h2>
-            <ul>
-                <li><a href="#">Tool 1</a>: Description of Tool 1.</li>
-                <li><a href="#">Tool 2</a>: Description of Tool 2.</li>
-                <li><a href="#">Tool 3</a>: Description of Tool 3.</li>
-            </ul>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 Clinical Decision Support Tools. All rights reserved.</p>
-    </footer>
+    <div class="container">
+        <h1>Welcome to MedFlow</h1>
+        <h2>Your Health Management Tools</h2>
+        <div class="tool-card">
+            <h3>Obesity Management</h3>
+            <p>Manage your weight effectively with personalized plans.</p>
+        </div>
+        <div class="tool-card">
+            <h3>Hypertension Management</h3>
+            <p>Keep your blood pressure in check with our tools.</p>
+        </div>
+        <div class="tool-card">
+            <h3>Diabetes Management</h3>
+            <p>Control your diabetes with tailored monitoring solutions.</p>
+        </div>
+        <div class="tool-card">
+            <h3>Hyperlipidemia & ASCVD Prevention</h3>
+            <p>Manage your cholesterol levels and prevent cardiovascular diseases.</p>
+        </div>
+        <h2>Features</h2>
+        <ul>
+            <li>Personalized health management plans</li>
+            <li>Data tracking and analytics</li>
+            <li>Expert advice and tips</li>
+            <li>Community support and resources</li>
+        </ul>
+    </div>
 </body>
 </html>
