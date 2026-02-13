@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedFlow - Clinical Decision Support Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+        }
+        
+        .header h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 22px;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .tool-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .tool-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        
+        .tool-description {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .tool-features {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .tool-features li {
+            padding: 8px 0;
+            color: #555;
+            font-size: 14px;
+        }
+        
+        .tool-features li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .tool-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        
+        .obesity { border-left: 5px solid #667eea; }
+        .hypertension { border-left: 5px solid #e74c3c; }
+        .diabetes { border-left: 5px solid #3498db; }
+        .hyperlipidemia { border-left: 5px solid #f39c12; }
+        
+        .features-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .feature {
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+        
+        .feature h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .feature p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            padding: 40px 0 20px;
+        }
+        
+        .footer p {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .disclaimer-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 40px;
+            color: white;
+        }
+        
+        .disclaimer-box h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .disclaimer-box p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        @media (max-width: 768px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 36px;
+            }
+            
+            .header p {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 MedFlow</h1>
+            <p>Evidence-Based Clinical Decision Support Tools</p>
+            <p class="subtitle">Free • Updated 2025 Guidelines • For Medical Students & Practitioners</p>
+        </div>
+        
+        <div class="tools-grid">
+            <a href="obesity-management-complete.html" class="tool-card obesity">
+                <div class="tool-icon">⚖️</div>
+                <div class="tool-title">Obesity Management</div>
+                <div class="tool-description">
+                    Comprehensive weight loss medication selection tool covering all 7 FDA-approved anti-obesity medications with smart contraindication screening.
+                </div>
+                <ul class="tool-features">
+                    <li>GLP-1 agonists (semaglutide, tirzepatide, liraglutide)</li>
+                    <li>Phentermine/topiramate, naltrexone/bupropion, orlistat</li>
+                    <li>Automatic contraindication detection</li>
+                    <li>Complete ICD-10 + CPT billing codes</li>
+                </ul>
+                <span class="tool-badge">2025 WHO • ADA Guidelines</span>
+            </a>
+            
+            <a href="hypertension-management.html" class="tool-card hypertension">
+                <div class="tool-icon">🩺</div>
+                <div class="tool-title">Hypertension Management</div>
+                <div class="tool-description">
+                    Complete BP staging, secondary HTN screening, and evidence-based medication selection following 2025 ACC/AHA guidelines.
+                </div>
+                <ul class="tool-features">
+                    <li>BP staging with automated risk assessment</li>
+                    <li>Primary aldosteronism screening (NEW 2025 guidelines)</li>
+                    <li>7 medication classes with dosing & monitoring</li>
+                    <li>Secondary causes workup recommendations</li>
+                </ul>
+                <span class="tool-badge">2025 ACC/AHA Guidelines</span>
+            </a>
+            
+            <a href="diabetes-management.html" class="tool-card diabetes">
+                <div class="tool-icon">💉</div>
+                <div class="tool-title">Diabetes Management</div>
+                <div class="tool-description">
+                    Type 1 & Type 2 diabetes workflows including diagnosis, type classification, complete medication algorithms, and insulin regimens.
+                </div>
+                <ul class="tool-features">
+                    <li>AABBCC approach for type determination (NEW 2025)</li>
+                    <li>AID systems preference for Type 1 (2026 update)</li>
+                    <li>Comorbidity-driven Type 2 treatment (ASCVD/CKD/HF)</li>
+                    <li>Complete GLP-1, SGLT2, insulin algorithms</li>
+                </ul>
+                <span class="tool-badge">2025/2026 ADA Standards</span>
+            </a>
+            
+            <a href="hyperlipidemia-ascvd-management.html" class="tool-card hyperlipidemia">
+                <div class="tool-icon">🧪</div>
+                <div class="tool-title">Hyperlipidemia & ASCVD Prevention</div>
+                <div class="tool-description">
+                    Primary and secondary prevention with ASCVD risk calculation, statin intensity selection, and non-statin therapy guidance.
+                </div>
+                <ul class="tool-features">
+                    <li>10-year ASCVD risk calculator (Pooled Cohort Equations)</li>
+                    <li>Statin intensity recommendations by risk category</li>
+                    <li>Secondary prevention: ezetimibe, PCSK9 inhibitors</li>
+                    <li>Risk enhancers and CAC score integration</li>
+                </ul>
+                <span class="tool-badge">2018/2019 ACC/AHA Guidelines</span>
+            </a>
+        </div>
+        
+        <div class="features-section">
+            <h2 style="text-align: center; font-size: 32px; margin-bottom: 10px; color: #333;">Why MedFlow?</h2>
+            <p style="text-align: center; color: #666; margin-bottom: 30px;">Built by medical professionals, for medical professionals</p>
+            
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">📚</div>
+                    <h3>Evidence-Based</h3>
+                    <p>Based on latest ACC/AHA, ADA, WHO, and society guidelines. Updated regularly as guidelines evolve.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast & Simple</h3>
+                    <p>Get treatment recommendations in seconds. No complex navigation or overwhelming menus.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">💳</div>
+                    <h3>Billing Integrated</h3>
+                    <p>Automatic ICD-10 and CPT code generation for proper documentation and reimbursement.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Private & Secure</h3>
+                    <p>Works completely offline. No data collection, no login required, no patient data stored.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">💰</div>
+                    <h3>100% Free</h3>
+                    <p>No subscriptions, no paywalls. Created as a public resource for medical education.</p>
+                </div>
+                
+                <div class="feature">
+                    <div class="feature-icon">📱</div>
+                    <h3>Works Anywhere</h3>
+                    <p>No installation needed. Works on desktop, tablet, or phone. Save to home screen for quick access.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="disclaimer-box">
+            <h3>⚠️ Important Disclaimer</h3>
+            <p>
+                <strong>For Educational Purposes Only:</strong> These tools are designed to support clinical education and decision-making, not replace professional judgment. 
+                They do not constitute medical advice and should not be used as the sole basis for patient care decisions. Always consider individual patient factors, 
+                consult current guidelines, and use your clinical judgment. The creators assume no liability for decisions made using these tools.
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p><strong>MedFlow</strong> - Evidence-Based Clinical Decision Support</p>
+            <p>Version 1.0 | Updated February 2025</p>
+            <p style="margin-top: 20px; font-size: 12px;">Not affiliated with any medical institution or organization</p>
+        </div>
+    </div>
+</body>
+</html>

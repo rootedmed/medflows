@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Obesity Management Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .disclaimer {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #856404;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .step {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-title {
+            font-size: 22px;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .question-text {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-item:hover {
+            background: #e9ecef;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .radio-item:hover {
+            background: #e9ecef;
+        }
+        
+        .radio-item input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .radio-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-restart {
+            background: #28a745;
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-restart:hover {
+            background: #218838;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+        
+        .alert h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .alert ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .alert li {
+            margin-bottom: 5px;
+        }
+        
+        .results-section {
+            margin-top: 20px;
+        }
+        
+        .results-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .results-box h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .results-box ul {
+            margin-left: 20px;
+        }
+        
+        .results-box li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .medication-card {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .medication-card.excluded {
+            opacity: 0.5;
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .medication-card h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .medication-card.excluded h4 {
+            color: #dc3545;
+        }
+        
+        .medication-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .med-detail-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .med-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .cost-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .cost-low {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .cost-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .cost-high {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .efficacy-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        
+        .efficacy-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #667eea);
+            transition: width 0.3s;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+        
+        .comparison-table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #e9ecef;
+            margin: 20px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 12px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .excluded-badge {
+            display: inline-block;
+            background: #dc3545;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .recommended-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Comprehensive Obesity Management Tool</h1>
+            <p>FDA-Approved Weight Loss Medications | Evidence-Based Guidelines</p>
+        </div>
+        
+        <div class="disclaimer">
+            ⚠️ <strong>Educational Tool Only:</strong> This tool is for educational purposes and clinical decision support. It does not replace clinical judgment or individualized patient care. Always consult current guidelines and consider patient-specific factors.
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+        
+        <div class="content">
+            <!-- Step 1: Patient Eligibility -->
+            <div class="step active" id="step1">
+                <div class="step-title">Step 1: Patient Assessment</div>
+                
+                <div class="question">
+                    <div class="question-text">Patient's BMI Category:</div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="bmi40plus" name="bmiLevel" value="40plus">
+                            <label for="bmi40plus">BMI ≥40 (Class 3 Obesity / Severe Obesity)</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="bmi35to40" name="bmiLevel" value="35to40">
+                            <label for="bmi35to40">BMI 35-39.9 (Class 2 Obesity)</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="bmi30to35" name="bmiLevel" value="30to35">
+                            <label for="bmi30to35">BMI 30-34.9 (Class 1 Obesity)</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="bmi27to30" name="bmiLevel" value="27to30">
+                            <label for="bmi27to30">BMI 27-29.9 (Overweight with comorbidity required)</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="bmiLow" name="bmiLevel" value="low">
+                            <label for="bmiLow">BMI <27</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Select ALL weight-related comorbidities present:</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="t2dm" name="comorbidity" value="t2dm">
+                            <label for="t2dm">Type 2 Diabetes Mellitus</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="prediabetes" name="comorbidity" value="prediabetes">
+                            <label for="prediabetes">Prediabetes / Impaired Glucose Tolerance</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="htn" name="comorbidity" value="htn">
+                            <label for="htn">Hypertension</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="dyslipidemia" name="comorbidity" value="dyslipidemia">
+                            <label for="dyslipidemia">Dyslipidemia / Hyperlipidemia</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="osa" name="comorbidity" value="osa">
+                            <label for="osa">Obstructive Sleep Apnea</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cvd" name="comorbidity" value="cvd">
+                            <label for="cvd">Cardiovascular Disease (CAD, MI, CVA history)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="nafld" name="comorbidity" value="nafld">
+                            <label for="nafld">NAFLD / NASH</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pcos" name="comorbidity" value="pcos">
+                            <label for="pcos">Polycystic Ovary Syndrome (PCOS)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="oa" name="comorbidity" value="oa">
+                            <label for="oa">Osteoarthritis (weight-bearing joints)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-primary" onclick="checkEligibility()">Continue to Screening</button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Comprehensive Contraindication Screening -->
+            <div class="step" id="step2">
+                <div class="step-title">Step 2: Contraindication Screening</div>
+                
+                <div class="alert alert-warning">
+                    <strong>Important:</strong> Check all that apply. We'll identify which medications are safe based on your selections.
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>Pregnancy & Reproductive Health:</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pregnant" name="contraindication" value="pregnant">
+                            <label for="pregnant">Currently pregnant, planning pregnancy, or not using reliable contraception (women of childbearing age)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="breastfeeding" name="contraindication" value="breastfeeding">
+                            <label for="breastfeeding">Currently breastfeeding</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>Endocrine & Thyroid History:</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="mtc" name="contraindication" value="mtc">
+                            <label for="mtc">Personal or family history of Medullary Thyroid Carcinoma (MTC)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="men2" name="contraindication" value="men2">
+                            <label for="men2">Personal or family history of Multiple Endocrine Neoplasia syndrome type 2 (MEN2)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="hyperthyroid" name="contraindication" value="hyperthyroid">
+                            <label for="hyperthyroid">Uncontrolled hyperthyroidism</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>Gastrointestinal & Pancreatic:</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pancreatitis" name="contraindication" value="pancreatitis">
+                            <label for="pancreatitis">History of severe or recurrent pancreatitis</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="malabsorption" name="contraindication" value="malabsorption">
+                            <label for="malabsorption">Chronic malabsorption syndrome</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cholestasis" name="contraindication" value="cholestasis">
+                            <label for="cholestasis">Cholestasis (bile flow blockage)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>Neurological & Psychiatric:</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="seizures" name="contraindication" value="seizures">
+                            <label for="seizures">History of seizure disorder or epilepsy</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="eating_disorder" name="contraindication" value="eating_disorder">
+                            <label for="eating_disorder">Current or prior anorexia nervosa or bulimia nervosa</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="glaucoma" name="contraindication" value="glaucoma">
+                            <label for="glaucoma">Angle-closure glaucoma (or anatomically narrow angles)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>Cardiovascular:</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="uncontrolled_htn" name="contraindication" value="uncontrolled_htn">
+                            <label for="uncontrolled_htn">Uncontrolled hypertension (BP >160/100 despite treatment)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="recent_cvd" name="contraindication" value="recent_cvd">
+                            <label for="recent_cvd">Recent MI, stroke, or unstable angina (within 6 months)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>Medication Use:</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="maoi" name="contraindication" value="maoi">
+                            <label for="maoi">Currently taking or stopped MAOIs within 14 days</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="chronic_opioids" name="contraindication" value="chronic_opioids">
+                            <label for="chronic_opioids">Chronic opioid therapy (daily use)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="other_bupropion" name="contraindication" value="other_bupropion">
+                            <label for="other_bupropion">Currently taking other bupropion products (Wellbutrin, Zyban)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>Substance Use:</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="alcohol_withdrawal" name="contraindication" value="alcohol_withdrawal">
+                            <label for="alcohol_withdrawal">Abrupt discontinuation of alcohol, benzodiazepines, or barbiturates</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="previousStep(2)">Back</button>
+                    <button class="btn-primary" onclick="checkContraindications()">Continue to Workup</button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Pre-Medication Labs -->
+            <div class="step" id="step3">
+                <div class="step-title">Step 3: Pre-Medication Workup</div>
+                
+                <div class="alert alert-info">
+                    <h3>✓ Required Laboratory Tests</h3>
+                    <p>Order the following labs before initiating pharmacotherapy:</p>
+                </div>
+                
+                <div class="results-box">
+                    <h3>Essential Labs for All Anti-Obesity Medications:</h3>
+                    <ul>
+                        <li><strong>Comprehensive Metabolic Panel (CMP)</strong>
+                            <ul>
+                                <li>Creatinine & eGFR (assess kidney function for dosing)</li>
+                                <li>ALT, AST (baseline liver function)</li>
+                                <li>Electrolytes, glucose</li>
+                            </ul>
+                        </li>
+                        <li><strong>HbA1c</strong> (if diabetic or prediabetic)</li>
+                        <li><strong>Fasting Glucose & Lipid Panel</strong></li>
+                        <li><strong>Pregnancy Test</strong> (women of childbearing age - MANDATORY before Qsymia)</li>
+                        <li><strong>TSH</strong> (recommended baseline)</li>
+                    </ul>
+                </div>
+                
+                <div class="results-box">
+                    <h3>Medication-Specific Considerations:</h3>
+                    <ul>
+                        <li><strong>GLP-1 agonists:</strong> Baseline lipase NOT routinely needed (only if h/o pancreatitis)</li>
+                        <li><strong>Orlistat:</strong> Fat-soluble vitamin levels (A, D, E, K) if prolonged use expected</li>
+                        <li><strong>Phentermine:</strong> ECG if cardiovascular risk factors present</li>
+                        <li><strong>Qsymia:</strong> Bicarbonate, creatinine, potassium (risk of metabolic acidosis)</li>
+                        <li><strong>Contrave:</strong> Blood pressure measurement (may increase BP/HR)</li>
+                    </ul>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="previousStep(3)">Back</button>
+                    <button class="btn-primary" onclick="showMedications()">View Medication Options</button>
+                </div>
+            </div>
+            
+            <!-- Step 4: Medication Selection & Results -->
+            <div class="step" id="step4">
+                <div class="step-title">Step 4: Medication Selection & Billing</div>
+                
+                <div class="alert alert-success" id="eligibilityMessage">
+                    <h3>✓ Patient is eligible for anti-obesity pharmacotherapy</h3>
+                </div>
+                
+                <div id="medicationRecommendations"></div>
+                
+                <div class="results-section">
+                    <h3 style="color: #667eea; margin-bottom: 20px;">FDA-Approved Medication Options:</h3>
+                    
+                    <div id="medicationsList"></div>
+                </div>
+                
+                <div class="results-box" style="background: #e7f3ff; border-left: 4px solid #667eea;">
+                    <h3>💳 ICD-10 & CPT Billing Codes</h3>
+                    <p style="margin-bottom: 15px;"><strong>Required for Prior Authorization & Medical Necessity Documentation</strong></p>
+                    
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h4 style="color: #667eea; margin-bottom: 10px;">Primary Diagnosis Codes:</h4>
+                        <div id="primaryDiagnosisCodes"></div>
+                    </div>
+                    
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h4 style="color: #667eea; margin-bottom: 10px;">Supporting Comorbidity Codes:</h4>
+                        <div id="comorbidityCodes"></div>
+                    </div>
+                    
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                        <h4 style="color: #667eea; margin-bottom: 10px;">CPT Procedure Codes:</h4>
+                        <div id="cptCodes"></div>
+                    </div>
+                    
+                    <div class="alert alert-info" style="margin-top: 15px;">
+                        <strong>💡 Billing Tips:</strong>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Always include BOTH an E66 obesity code AND a Z68 BMI code</li>
+                            <li>List all comorbidities to strengthen medical necessity</li>
+                            <li>For BMI 27-29.9: Must document at least ONE comorbidity for coverage</li>
+                            <li>Document failed lifestyle modifications (diet/exercise for 3-6 months)</li>
+                            <li>Most insurers require prior authorization for anti-obesity medications</li>
+                            <li>Medicare covers intensive behavioral therapy (G0447, up to 22 sessions)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-restart" onclick="restart()">Start New Assessment</button>
+                </div>
+            </div>
+            
+            <!-- Ineligible Results -->
+            <div class="step" id="stepIneligible">
+                <div class="step-title">Assessment Complete</div>
+                
+                <div class="alert alert-warning">
+                    <h3>Patient Does Not Meet Criteria</h3>
+                    <p id="ineligibleReason"></p>
+                </div>
+                
+                <div class="results-box">
+                    <h3>Current FDA Guidelines:</h3>
+                    <p>Anti-obesity medications are approved for:</p>
+                    <ul>
+                        <li>Adults with BMI ≥30 (obesity), OR</li>
+                        <li>Adults with BMI ≥27 AND at least one weight-related comorbidity</li>
+                    </ul>
+                </div>
+                
+                <div class="results-box">
+                    <h3>Recommended Approach:</h3>
+                    <ul>
+                        <li><strong>Intensive Lifestyle Modification:</strong> Medical nutrition therapy + regular physical activity</li>
+                        <li><strong>Set Realistic Goals:</strong> 5-10% weight loss can significantly improve metabolic health</li>
+                        <li><strong>Address Underlying Causes:</strong> Screen for hypothyroidism, PCOS, medications causing weight gain</li>
+                        <li><strong>Follow-up:</strong> Reassess in 3-6 months; consider pharmacotherapy if BMI/comorbidity criteria met</li>
+                    </ul>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-restart" onclick="restart()">Start New Assessment</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Based on FDA 2024/2025 guidelines, WHO 2025, ACC 2025 | For educational purposes only
+        </div>
+    </div>
+    
+    <script>
+        let currentStep = 1;
+        let excludedMedications = [];
+        
+        const medications = {
+            tirzepatide: {
+                name: "Tirzepatide",
+                brands: "Zepbound (weight loss) / Mounjaro (diabetes)",
+                mechanism: "Dual GLP-1/GIP receptor agonist",
+                efficacy: "15-22% mean weight loss",
+                efficacyPercent: 95,
+                dosing: "Start 2.5mg SC weekly → titrate monthly: 5mg → 7.5mg → 10mg → 12.5mg → max 15mg",
+                cost: "$$$$",
+                costText: "$1000-1200/month",
+                sideEffects: "Nausea, vomiting, diarrhea, constipation, abdominal pain, increased gallbladder disease risk",
+                contraindications: ["mtc", "men2", "pregnant", "pancreatitis"],
+                monitoring: "Week 4, Month 3, 6, 12. Check weight, tolerability, CMP at month 3 and 6",
+                notes: "Highest efficacy. Best for patients with diabetes. Counsel on GI side effects and gallbladder risk."
+            },
+            semaglutide: {
+                name: "Semaglutide 2.4mg",
+                brands: "Wegovy (weight loss) / Ozempic ≤2mg (diabetes)",
+                mechanism: "GLP-1 receptor agonist",
+                efficacy: "12-17% mean weight loss",
+                efficacyPercent: 85,
+                dosing: "Start 0.25mg SC weekly → titrate monthly: 0.5mg → 1mg → 1.7mg → 2.4mg",
+                cost: "$$$$",
+                costText: "$1300-1400/month",
+                sideEffects: "Nausea, vomiting, diarrhea, constipation, abdominal pain, increased gallbladder disease risk",
+                contraindications: ["mtc", "men2", "pregnant", "pancreatitis"],
+                monitoring: "Week 4, Month 3, 6, 12. Check weight, tolerability, CMP at month 3 and 6",
+                notes: "High efficacy. FDA-approved for CV risk reduction in obesity + CVD. Excellent for diabetes."
+            },
+            liraglutide: {
+                name: "Liraglutide 3mg",
+                brands: "Saxenda (weight loss) / Victoza 1.8mg (diabetes)",
+                mechanism: "GLP-1 receptor agonist",
+                efficacy: "8-10% mean weight loss",
+                efficacyPercent: 50,
+                dosing: "Start 0.6mg SC daily → increase by 0.6mg weekly to 3mg daily",
+                cost: "$$$$",
+                costText: "$1300-1500/month",
+                sideEffects: "Nausea, vomiting, diarrhea, constipation, headache",
+                contraindications: ["mtc", "men2", "pregnant", "pancreatitis"],
+                monitoring: "Week 2-4, Month 3, 6, 12. Daily injection may reduce adherence.",
+                notes: "Lower efficacy than semaglutide/tirzepatide. Daily injection. Consider if weekly injections not feasible."
+            },
+            qsymia: {
+                name: "Phentermine/Topiramate ER",
+                brands: "Qsymia",
+                mechanism: "Appetite suppressant + anticonvulsant",
+                efficacy: "9-11% mean weight loss",
+                efficacyPercent: 60,
+                dosing: "Start 3.75/23mg daily x14 days → 7.5/46mg daily (evaluate at 12 weeks) → may increase to 11.25/69mg → max 15/92mg",
+                cost: "$$",
+                costText: "$200-250/month",
+                sideEffects: "Paresthesias, dry mouth, constipation, dysgeusia, insomnia, dizziness, cognitive impairment",
+                contraindications: ["pregnant", "glaucoma", "hyperthyroid", "maoi"],
+                monitoring: "Week 2, Month 3 (if <3% loss → d/c or increase), Month 6, 12. Monitor BP, HR, cognitive function",
+                notes: "PREGNANCY CATEGORY X - REMS program required. Must use reliable contraception. Risk of oral clefts with first-trimester topiramate exposure. Not for women planning pregnancy within 1 month of stopping."
+            },
+            contrave: {
+                name: "Naltrexone/Bupropion ER",
+                brands: "Contrave",
+                mechanism: "Opioid antagonist + antidepressant",
+                efficacy: "5-9% mean weight loss",
+                efficacyPercent: 45,
+                dosing: "Week 1: 8/90mg AM; Week 2: 8/90mg BID; Week 3: 16/180mg AM + 8/90mg PM; Week 4+: 16/180mg BID (max dose)",
+                cost: "$$",
+                costText: "$100-200/month",
+                sideEffects: "Nausea, constipation, headache, dizziness, dry mouth, insomnia, increased BP/HR",
+                contraindications: ["seizures", "eating_disorder", "chronic_opioids", "maoi", "other_bupropion", "alcohol_withdrawal", "uncontrolled_htn"],
+                monitoring: "Week 2-4, Month 3 (if <5% loss → d/c), Month 6, 12. Monitor BP, HR at each visit",
+                notes: "Boxed warning: Suicidal thoughts/behavior (bupropion component). Cannot use opioids while on this med. Blocks opioid pain relief."
+            },
+            orlistat: {
+                name: "Orlistat",
+                brands: "Xenical 120mg (Rx) / Alli 60mg (OTC)",
+                mechanism: "Pancreatic lipase inhibitor (blocks fat absorption)",
+                efficacy: "3-5% mean weight loss",
+                efficacyPercent: 25,
+                dosing: "Xenical: 120mg TID with each fat-containing meal (or ≤1 hr after). Alli: 60mg TID. Skip if meal has no fat.",
+                cost: "$",
+                costText: "$50-150/month (OTC Alli ~$50)",
+                sideEffects: "Oily spotting, flatus with discharge, fecal urgency, fatty/oily stool, fecal incontinence, increased defecation",
+                contraindications: ["pregnant", "malabsorption", "cholestasis"],
+                monitoring: "Month 1, 3, 6. Check fat-soluble vitamin levels (A,D,E,K) if long-term use. Take multivitamin 2 hrs before/after orlistat.",
+                notes: "Lowest efficacy but cheapest and OTC available. GI side effects limit adherence. Must limit dietary fat to reduce side effects. Interferes with fat-soluble vitamin absorption."
+            },
+            phentermine: {
+                name: "Phentermine (monotherapy)",
+                brands: "Adipex-P, Lomaira, generic",
+                mechanism: "Sympathomimetic amine appetite suppressant",
+                efficacy: "5-7% mean weight loss",
+                efficacyPercent: 35,
+                dosing: "37.5mg PO daily before breakfast, or 18.75mg BID. Max 37.5mg/day. FDA-approved for SHORT-TERM use (≤12 weeks), but often used off-label long-term.",
+                cost: "$",
+                costText: "$20-50/month (generic)",
+                sideEffects: "Insomnia, dry mouth, constipation, increased HR/BP, restlessness, dizziness",
+                contraindications: ["pregnant", "recent_cvd", "uncontrolled_htn", "hyperthyroid", "glaucoma", "maoi"],
+                monitoring: "Week 2, Month 1, 3. Monitor BP, HR closely. Avoid evening doses (insomnia risk).",
+                notes: "Schedule IV controlled substance. Cheapest option. Only FDA-approved short-term but commonly used off-label long-term. Risk of tolerance. History of cardiac valvulopathy with fen-phen (not phentermine alone)."
+            }
+        };
+        
+        function updateProgress() {
+            const progress = (currentStep / 4) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function showStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step' + stepNumber).classList.add('active');
+            currentStep = stepNumber;
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+        
+        function previousStep(fromStep) {
+            showStep(fromStep - 1);
+        }
+        
+        function checkEligibility() {
+            const bmiLevel = document.querySelector('input[name="bmiLevel"]:checked');
+            if (!bmiLevel) {
+                alert('Please select BMI category');
+                return;
+            }
+            
+            if (bmiLevel.value === 'low') {
+                document.getElementById('ineligibleReason').textContent = 'Patient has BMI <27. Anti-obesity medications are not indicated. Recommend lifestyle modifications and reassess if BMI increases.';
+                document.getElementById('stepIneligible').classList.add('active');
+                document.getElementById('step1').classList.remove('active');
+                return;
+            }
+            
+            const comorbidities = document.querySelectorAll('input[name="comorbidity"]:checked');
+            
+            if (bmiLevel.value === '27to30' && comorbidities.length === 0) {
+                document.getElementById('ineligibleReason').textContent = 'Patient has BMI 27-29.9 but NO comorbidities documented. Anti-obesity medications require at least ONE weight-related comorbidity for this BMI range. Document comorbidities (diabetes, HTN, dyslipidemia, OSA, etc.) or recommend lifestyle modification until BMI ≥30.';
+                document.getElementById('stepIneligible').classList.add('active');
+                document.getElementById('step1').classList.remove('active');
+                return;
+            }
+            
+            showStep(2);
+        }
+        
+        function checkContraindications() {
+            const contraindications = document.querySelectorAll('input[name="contraindication"]:checked');
+            excludedMedications = [];
+            
+            contraindications.forEach(item => {
+                const contraindicationType = item.value;
+                
+                Object.keys(medications).forEach(medKey => {
+                    if (medications[medKey].contraindications.includes(contraindicationType)) {
+                        if (!excludedMedications.includes(medKey)) {
+                            excludedMedications.push(medKey);
+                        }
+                    }
+                });
+            });
+            
+            showStep(3);
+        }
+        
+        function showMedications() {
+            const bmiLevel = document.querySelector('input[name="bmiLevel"]:checked').value;
+            const comorbidities = document.querySelectorAll('input[name="comorbidity"]:checked');
+            
+            generateICD10Codes(bmiLevel, comorbidities);
+            generateMedicationList();
+            generateRecommendations();
+            
+            showStep(4);
+        }
+        
+        function generateRecommendations() {
+            const recommendationsDiv = document.getElementById('medicationRecommendations');
+            const availableMeds = Object.keys(medications).filter(key => !excludedMedications.includes(key));
+            
+            if (availableMeds.length === 0) {
+                recommendationsDiv.innerHTML = `
+                    <div class="alert alert-danger">
+                        <h3>⚠️ All medications are contraindicated</h3>
+                        <p>Based on the patient's contraindications, NO FDA-approved anti-obesity medications are safe to prescribe.</p>
+                        <p><strong>Recommendations:</strong></p>
+                        <ul style="margin-left: 20px; margin-top: 10px;">
+                            <li>Intensive lifestyle modification (medical nutrition therapy, exercise, behavioral therapy)</li>
+                            <li>Consider bariatric surgery referral if BMI ≥35 with comorbidities or BMI ≥40</li>
+                            <li>Address modifiable contraindications (e.g., optimize thyroid function, discontinue MAOIs after washout)</li>
+                        </ul>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort by efficacy
+            const sortedMeds = availableMeds.sort((a, b) => 
+                medications[b].efficacyPercent - medications[a].efficacyPercent
+            );
+            
+            const topMed = sortedMeds[0];
+            
+            recommendationsDiv.innerHTML = `
+                <div class="alert alert-success">
+                    <h3>🎯 Recommended Based on Efficacy: ${medications[topMed].name}</h3>
+                    <p><strong>${medications[topMed].efficacy}</strong> | ${medications[topMed].mechanism}</p>
+                    <p style="margin-top: 10px;">${medications[topMed].notes}</p>
+                </div>
+                
+                <div class="alert alert-info">
+                    <strong>📊 ${availableMeds.length} medication option(s) available.</strong>
+                    ${excludedMedications.length > 0 ? `<strong style="color: #dc3545;"> ${excludedMedications.length} medication(s) excluded due to contraindications.</strong>` : ''}
+                </div>
+            `;
+        }
+        
+        function generateMedicationList() {
+            const medListDiv = document.getElementById('medicationsList');
+            let html = '';
+            
+            // Sort: available first (by efficacy), then excluded
+            const availableMeds = Object.keys(medications)
+                .filter(key => !excludedMedications.includes(key))
+                .sort((a, b) => medications[b].efficacyPercent - medications[a].efficacyPercent);
+            
+            const excludedMeds = Object.keys(medications)
+                .filter(key => excludedMedications.includes(key));
+            
+            // Available medications
+            availableMeds.forEach((key, index) => {
+                const med = medications[key];
+                html += `
+                    <div class="medication-card">
+                        <h4>${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '💊'} ${med.name} (${med.brands})${index === 0 ? '<span class="recommended-badge">HIGHEST EFFICACY</span>' : ''}</h4>
+                        <div class="med-detail-row">
+                            <span class="med-label">Mechanism:</span>
+                            <span>${med.mechanism}</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Efficacy:</span>
+                            <span>${med.efficacy}
+                                <div class="efficacy-bar">
+                                    <div class="efficacy-fill" style="width: ${med.efficacyPercent}%"></div>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Cost:</span>
+                            <span><span class="cost-indicator cost-${med.cost.length === 1 ? 'low' : med.cost.length === 2 ? 'medium' : 'high'}">${med.cost}</span> ${med.costText}</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Dosing:</span>
+                            <span>${med.dosing}</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Side Effects:</span>
+                            <span>${med.sideEffects}</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Monitoring:</span>
+                            <span>${med.monitoring}</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Clinical Notes:</span>
+                            <span>${med.notes}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // Excluded medications
+            if (excludedMeds.length > 0) {
+                html += `<h3 style="color: #dc3545; margin-top: 30px; margin-bottom: 15px;">❌ Contraindicated Medications</h3>`;
+                
+                excludedMeds.forEach(key => {
+                    const med = medications[key];
+                    html += `
+                        <div class="medication-card excluded">
+                            <h4>${med.name} (${med.brands})<span class="excluded-badge">CONTRAINDICATED</span></h4>
+                            <p><strong>Reason:</strong> Patient has contraindications for this medication. Review contraindication screening results.</p>
+                        </div>
+                    `;
+                });
+            }
+            
+            medListDiv.innerHTML = html;
+        }
+        
+        function generateICD10Codes(bmiLevel, comorbidities) {
+            const primaryDiv = document.getElementById('primaryDiagnosisCodes');
+            const comorbidityDiv = document.getElementById('comorbidityCodes');
+            const cptDiv = document.getElementById('cptCodes');
+            
+            // Primary obesity and BMI codes
+            let primaryCodes = '';
+            
+            switch(bmiLevel) {
+                case '40plus':
+                    primaryCodes = `
+                        <p><strong>E66.813</strong> - Obesity, Class 3 (Severe) <em>[New Oct 2024]</em></p>
+                        <p><strong>Z68.41</strong> - Body mass index (BMI) 40.0-44.9, adult</p>
+                        <p style="font-size: 13px; color: #666; margin-top: 5px;">OR <strong>Z68.42</strong> (45.0-49.9), <strong>Z68.43</strong> (50-59.9), <strong>Z68.44</strong> (60-69.9), <strong>Z68.45</strong> (≥70) depending on exact BMI</p>
+                    `;
+                    break;
+                case '35to40':
+                    primaryCodes = `
+                        <p><strong>E66.812</strong> - Obesity, Class 2 <em>[New Oct 2024]</em></p>
+                        <p><strong>Z68.37</strong> - Body mass index (BMI) 37.0-37.9, adult</p>
+                        <p style="font-size: 13px; color: #666; margin-top: 5px;">OR <strong>Z68.35</strong> (35.0-35.9), <strong>Z68.36</strong> (36.0-36.9), <strong>Z68.38</strong> (38.0-38.9), <strong>Z68.39</strong> (39.0-39.9)</p>
+                    `;
+                    break;
+                case '30to35':
+                    primaryCodes = `
+                        <p><strong>E66.811</strong> - Obesity, Class 1 <em>[New Oct 2024]</em></p>
+                        <p><strong>Z68.32</strong> - Body mass index (BMI) 32.0-32.9, adult</p>
+                        <p style="font-size: 13px; color: #666; margin-top: 5px;">OR <strong>Z68.30</strong> (30.0-30.9), <strong>Z68.31</strong> (31.0-31.9), <strong>Z68.33</strong> (33.0-33.9), <strong>Z68.34</strong> (34.0-34.9)</p>
+                    `;
+                    break;
+                case '27to30':
+                    primaryCodes = `
+                        <p><strong>E66.3</strong> - Overweight</p>
+                        <p><strong>Z68.27</strong> - Body mass index (BMI) 27.0-27.9, adult</p>
+                        <p style="font-size: 13px; color: #666; margin-top: 5px;">OR <strong>Z68.28</strong> (28.0-28.9), <strong>Z68.29</strong> (29.0-29.9)</p>
+                        <p style="background: #fff3cd; padding: 10px; border-radius: 4px; margin-top: 10px; font-size: 13px;"><strong>⚠️ Important:</strong> Insurance requires at least ONE comorbidity documented for BMI 27-29.9.</p>
+                    `;
+                    break;
+            }
+            
+            primaryDiv.innerHTML = primaryCodes;
+            
+            // Comorbidity codes
+            let comorbidityCodesHTML = '';
+            
+            const comorbidityMap = {
+                't2dm': '<p><strong>E11.9</strong> - Type 2 diabetes mellitus without complications<br/><span style="font-size: 13px; color: #666;">Use E11.65 (hyperglycemia), E11.22 (CKD), E11.36 (retinopathy) if complications present</span></p>',
+                'prediabetes': '<p><strong>R73.03</strong> - Prediabetes<br/><strong>R73.09</strong> - Other abnormal glucose</p>',
+                'htn': '<p><strong>I10</strong> - Essential (primary) hypertension</p>',
+                'dyslipidemia': '<p><strong>E78.5</strong> - Hyperlipidemia, unspecified<br/><span style="font-size: 13px; color: #666;">OR E78.0 (hypercholesterolemia), E78.1 (hypertriglyceridemia), E78.2 (mixed)</span></p>',
+                'osa': '<p><strong>G47.33</strong> - Obstructive sleep apnea (adult)</p>',
+                'cvd': '<p><strong>I25.10</strong> - Atherosclerotic heart disease<br/><strong>I21.9</strong> - Acute MI (if h/o MI)<br/><strong>I63.9</strong> - Cerebral infarction (if h/o stroke)</p>',
+                'nafld': '<p><strong>K76.0</strong> - Fatty liver, not elsewhere classified (NAFLD)<br/><strong>K75.81</strong> - Nonalcoholic steatohepatitis (NASH)</p>',
+                'pcos': '<p><strong>E28.2</strong> - Polycystic ovarian syndrome</p>',
+                'oa': '<p><strong>M17.9</strong> - Osteoarthritis of knee<br/><strong>M16.9</strong> - Osteoarthritis of hip</p>'
+            };
+            
+            if (comorbidities.length === 0) {
+                comorbidityCodesHTML = '<p style="color: #666; font-style: italic;">No comorbidities selected.</p>';
+            } else {
+                comorbidities.forEach(comorbidity => {
+                    comorbidityCodesHTML += comorbidityMap[comorbidity.value] || '';
+                });
+            }
+            
+            comorbidityDiv.innerHTML = comorbidityCodesHTML;
+            
+            // CPT codes
+            cptDiv.innerHTML = `
+                <p><strong>99203-99205</strong> - New patient office visit (level 3-5 based on complexity)</p>
+                <p><strong>99213-99215</strong> - Established patient office visit (level 3-5)</p>
+                <p><strong>97802-97804</strong> - Medical nutrition therapy (initial + additional 15 min units)</p>
+                <p><strong>99401-99404</strong> - Preventive medicine counseling (15/30/45/60 min)</p>
+                <p><strong>G0447</strong> - Face-to-face behavioral counseling for obesity, 15 minutes (Medicare, up to 22 sessions/year)</p>
+                <p style="margin-top: 10px; font-size: 13px; color: #666;"><strong>Lab CPT Codes:</strong> 80053 (CMP), 83036 (HbA1c), 84443 (TSH), 80061 (Lipid panel), 81025 (Pregnancy test)</p>
+            `;
+        }
+        
+        function restart() {
+            // Reset all inputs
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+            
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show first step
+            document.getElementById('step1').classList.add('active');
+            excludedMedications = [];
+            currentStep = 1;
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+        
+        // Initialize progress bar
+        updateProgress();
+    </script>
+</body>
+</html>

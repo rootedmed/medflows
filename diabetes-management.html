@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Diabetes Management Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .disclaimer {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #856404;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .step {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-title {
+            font-size: 22px;
+            color: #3498db;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .question-text {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .input-group label {
+            min-width: 200px;
+            font-weight: 500;
+        }
+        
+        .input-group input[type="number"],
+        .input-group input[type="text"],
+        .input-group select {
+            padding: 8px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 200px;
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-item:hover {
+            background: #e9ecef;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .radio-item:hover {
+            background: #e9ecef;
+        }
+        
+        .radio-item input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .radio-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-restart {
+            background: #28a745;
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-restart:hover {
+            background: #218838;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+        
+        .alert h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .alert ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .alert li {
+            margin-bottom: 5px;
+        }
+        
+        .results-section {
+            margin-top: 20px;
+        }
+        
+        .results-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .results-box h3 {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .results-box ul {
+            margin-left: 20px;
+        }
+        
+        .results-box li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .medication-card {
+            background: white;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .medication-card h4 {
+            color: #3498db;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .medication-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .med-detail-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .med-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #e9ecef;
+            margin: 20px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+            transition: width 0.3s;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 12px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+        }
+        
+        .comparison-table th {
+            background: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .diagnosis-box {
+            background: white;
+            border: 3px solid #3498db;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .diagnosis-box h3 {
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🩺 Comprehensive Diabetes Management</h1>
+            <p>Based on 2025/2026 ADA Standards of Care | Type 1 & Type 2 Diabetes</p>
+        </div>
+        
+        <div class="disclaimer">
+            ⚠️ <strong>Clinical Decision Support Tool:</strong> This tool follows 2025/2026 ADA Standards of Care for diabetes management. It does not replace clinical judgment. Always consider patient-specific factors and consult current guidelines.
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+        
+        <div class="content">
+            <!-- Step 1: Screening & Diagnosis -->
+            <div class="step active" id="step1">
+                <div class="step-title">Step 1: Screening & Diagnosis</div>
+                
+                <div class="alert alert-info">
+                    <h3>🔍 Diagnostic Criteria for Diabetes (ADA 2025)</h3>
+                    <p>Diagnosis requires ONE of the following (confirm with repeat testing on different day unless hyperglycemic symptoms):</p>
+                    <ul>
+                        <li><strong>HbA1c ≥6.5%</strong> (48 mmol/mol)</li>
+                        <li><strong>Fasting Plasma Glucose (FPG) ≥126 mg/dL</strong> (7.0 mmol/L) - no caloric intake for ≥8 hours</li>
+                        <li><strong>2-hour Plasma Glucose ≥200 mg/dL</strong> (11.1 mmol/L) during 75g OGTT</li>
+                        <li><strong>Random Plasma Glucose ≥200 mg/dL</strong> (11.1 mmol/L) WITH classic hyperglycemic symptoms (polyuria, polydipsia, unexplained weight loss)</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Prediabetes:</strong> HbA1c 5.7-6.4%, FPG 100-125 mg/dL, or 2-hr PG 140-199 mg/dL</p>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">What brings the patient in today?</div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="newDiagnosis" name="scenario" value="newDiagnosis">
+                            <label for="newDiagnosis">New diagnosis / Screening results suggestive of diabetes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="establishedT1" name="scenario" value="establishedT1">
+                            <label for="establishedT1">Established Type 1 Diabetes - medication management</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="establishedT2" name="scenario" value="establishedT2">
+                            <label for="establishedT2">Established Type 2 Diabetes - medication management</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-primary" onclick="assessScenario()">Continue</button>
+                </div>
+            </div>
+            
+            <!-- Step 2A: New Diagnosis Workup -->
+            <div class="step" id="step2a">
+                <div class="step-title">Step 2: Confirm Diagnosis & Type Classification</div>
+                
+                <div class="question">
+                    <div class="question-text">Enter laboratory values:</div>
+                    <div class="input-group">
+                        <label>HbA1c (%):</label>
+                        <input type="number" id="hba1c" step="0.1" placeholder="e.g., 8.5">
+                    </div>
+                    <div class="input-group">
+                        <label>Fasting Glucose (mg/dL):</label>
+                        <input type="number" id="fastingGlucose" placeholder="e.g., 145">
+                    </div>
+                    <div class="input-group">
+                        <label>Random/Current Glucose (mg/dL):</label>
+                        <input type="number" id="randomGlucose" placeholder="e.g., 220">
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Patient demographics & presentation:</div>
+                    <div class="input-group">
+                        <label>Age (years):</label>
+                        <input type="number" id="age" min="1" max="120" placeholder="e.g., 35">
+                    </div>
+                    <div class="input-group">
+                        <label>BMI (kg/m²):</label>
+                        <input type="number" id="bmi" step="0.1" placeholder="e.g., 32.5">
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>Clinical Presentation (AABBCC Approach - 2025 ADA):</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="youngAge" name="typeFeature" value="youngAge">
+                            <label for="youngAge"><strong>Age:</strong> Age <35 at diagnosis (consider Type 1)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="autoimmune" name="typeFeature" value="autoimmune">
+                            <label for="autoimmune"><strong>Autoimmunity:</strong> Personal/family history of autoimmune disease (thyroid, celiac, etc.)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="symptoms" name="typeFeature" value="symptoms">
+                            <label for="symptoms"><strong>Body habitus/Symptoms:</strong> Lean body habitus, polyuria, polydipsia, weight loss, ketoacidosis</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="bloodSugar" name="typeFeature" value="bloodSugar">
+                            <label for="bloodSugar"><strong>Blood sugar:</strong> Very high glucose (>300 mg/dL) or HbA1c (>10%)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="poorControl" name="typeFeature" value="poorControl">
+                            <label for="poorControl"><strong>Control:</strong> Inability to achieve goals on noninsulin therapies</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="comorbidity" name="typeFeature" value="comorbidity">
+                            <label for="comorbidity"><strong>Comorbidities:</strong> Recent immunotherapy, steroid use, or other secondary causes</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="previousStep(2)">Back</button>
+                    <button class="btn-primary" onclick="determineDiabetesType()">Determine Type & Continue</button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Initial Workup -->
+            <div class="step" id="step3">
+                <div class="step-title">Step 3: Initial Workup & Complications Screening</div>
+                
+                <div id="diabetesTypeResult"></div>
+                
+                <div class="alert alert-info">
+                    <h3>🔬 Essential Initial Workup (ALL Patients with Diabetes)</h3>
+                </div>
+                
+                <div class="results-box">
+                    <h3>Laboratory Tests to Order:</h3>
+                    <ul>
+                        <li><strong>Comprehensive Metabolic Panel (CMP)</strong>
+                            <ul>
+                                <li>Creatinine, eGFR (assess kidney function)</li>
+                                <li>Electrolytes, liver function</li>
+                            </ul>
+                        </li>
+                        <li><strong>Lipid Panel (fasting)</strong>
+                            <ul>
+                                <li>Total cholesterol, LDL, HDL, triglycerides</li>
+                                <li>For ASCVD risk assessment</li>
+                            </ul>
+                        </li>
+                        <li><strong>Urine Albumin-to-Creatinine Ratio (UACR)</strong>
+                            <ul>
+                                <li>Screen for diabetic nephropathy</li>
+                                <li>Repeat annually</li>
+                            </ul>
+                        </li>
+                        <li><strong>Thyroid Function (TSH)</strong> - especially in Type 1 (higher autoimmune disease risk)</li>
+                        <li id="autoantibodyTest" style="display:none;"><strong>Islet Autoantibodies</strong> (if Type 1 suspected):
+                            <ul>
+                                <li>GAD-65, IA-2, ZnT8, insulin autoantibodies</li>
+                                <li>Helps confirm autoimmune etiology</li>
+                            </ul>
+                        </li>
+                        <li id="cPeptide" style="display:none;"><strong>C-peptide</strong> (if diagnostic uncertainty):
+                            <ul>
+                                <li>Random C-peptide with concurrent glucose</li>
+                                <li>Low C-peptide suggests Type 1; normal/elevated suggests Type 2</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="results-box">
+                    <h3>Complications Screening (Order at Diagnosis):</h3>
+                    <ul>
+                        <li><strong>Dilated Eye Exam</strong>
+                            <ul>
+                                <li><strong>Type 1:</strong> Within 5 years of diagnosis</li>
+                                <li><strong>Type 2:</strong> At diagnosis (may have had undiagnosed diabetes for years)</li>
+                                <li>Repeat annually or as recommended by ophthalmologist</li>
+                                <li>AI-based retinal screening tools acceptable alternative</li>
+                            </ul>
+                        </li>
+                        <li><strong>Foot Exam</strong>
+                            <ul>
+                                <li>Monofilament + tuning fork (vibration) + ankle reflexes</li>
+                                <li>Screen for peripheral neuropathy</li>
+                                <li>Annual comprehensive foot exam</li>
+                            </ul>
+                        </li>
+                        <li><strong>Blood Pressure</strong>
+                            <ul>
+                                <li>Screen for hypertension at every visit</li>
+                                <li>Goal <130/80 mmHg</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Does the patient have any of these established conditions?</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ascvd" name="complication" value="ascvd">
+                            <label for="ascvd">Established ASCVD (CAD, MI, stroke, PAD)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ckd" name="complication" value="ckd">
+                            <label for="ckd">Chronic Kidney Disease (eGFR <60 or albuminuria)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="hf" name="complication" value="hf">
+                            <label for="hf">Heart Failure</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="obesity" name="complication" value="obesity">
+                            <label for="obesity">Obesity (BMI ≥30)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="previousStep(3)">Back</button>
+                    <button class="btn-primary" onclick="proceedToTreatment()">Continue to Treatment</button>
+                </div>
+            </div>
+            
+            <!-- Step 4: Treatment Plan -->
+            <div class="step" id="step4">
+                <div class="step-title">Step 4: Treatment Plan & Medication Management</div>
+                
+                <div id="treatmentPlan"></div>
+                
+                <div class="results-box" style="background: #e7f3ff; border-left: 4px solid #3498db;">
+                    <h3>💳 ICD-10 & CPT Billing Codes</h3>
+                    <div id="billingCodes"></div>
+                </div>
+                
+                <div class="results-box">
+                    <h3>📅 Follow-Up & Monitoring Schedule:</h3>
+                    <div id="followupSchedule"></div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-restart" onclick="restart()">Start New Assessment</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Based on 2025/2026 ADA Standards of Care in Diabetes | For educational purposes only
+        </div>
+    </div>
+    
+    <script>
+        let currentStep = 1;
+        let patientData = {};
+        
+        function updateProgress() {
+            const progress = (currentStep / 4) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function showStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            const stepElement = document.getElementById('step' + stepNumber);
+            if (stepElement) {
+                stepElement.classList.add('active');
+                currentStep = stepNumber;
+                updateProgress();
+                window.scrollTo(0, 0);
+            }
+        }
+        
+        function previousStep(fromStep) {
+            if (fromStep === 2) {
+                showStep(1);
+            } else if (fromStep === 3) {
+                showStep('2a');
+            } else {
+                showStep(fromStep - 1);
+            }
+        }
+        
+        function assessScenario() {
+            const scenario = document.querySelector('input[name="scenario"]:checked');
+            if (!scenario) {
+                alert('Please select a clinical scenario');
+                return;
+            }
+            
+            patientData.scenario = scenario.value;
+            
+            if (scenario.value === 'newDiagnosis') {
+                showStep('2a');
+            } else if (scenario.value === 'establishedT1') {
+                patientData.diabetesType = 'type1';
+                generateType1Treatment();
+                showStep(4);
+            } else if (scenario.value === 'establishedT2') {
+                patientData.diabetesType = 'type2';
+                showStep(3);
+            }
+        }
+        
+        function determineDiabetesType() {
+            const hba1c = parseFloat(document.getElementById('hba1c').value);
+            const fastingGlucose = parseFloat(document.getElementById('fastingGlucose').value);
+            const randomGlucose = parseFloat(document.getElementById('randomGlucose').value);
+            const age = parseInt(document.getElementById('age').value);
+            const bmi = parseFloat(document.getElementById('bmi').value);
+            
+            if (!hba1c && !fastingGlucose && !randomGlucose) {
+                alert('Please enter at least one glucose or HbA1c value');
+                return;
+            }
+            
+            // Confirm diabetes diagnosis
+            let diagnosisConfirmed = false;
+            if (hba1c >= 6.5 || fastingGlucose >= 126 || randomGlucose >= 200) {
+                diagnosisConfirmed = true;
+            }
+            
+            if (!diagnosisConfirmed) {
+                alert('Values do not meet diagnostic criteria for diabetes. Consider prediabetes diagnosis if HbA1c 5.7-6.4% or FPG 100-125 mg/dL.');
+                return;
+            }
+            
+            patientData.hba1c = hba1c;
+            patientData.fastingGlucose = fastingGlucose;
+            patientData.randomGlucose = randomGlucose;
+            patientData.age = age;
+            patientData.bmi = bmi;
+            
+            // Collect type features
+            const typeFeatures = document.querySelectorAll('input[name="typeFeature"]:checked');
+            patientData.typeFeatures = Array.from(typeFeatures).map(tf => tf.value);
+            
+            // Determine most likely type
+            const type1Features = ['youngAge', 'autoimmune', 'symptoms', 'bloodSugar', 'poorControl'];
+            const type1Score = patientData.typeFeatures.filter(f => type1Features.includes(f)).length;
+            
+            let diagnosisHTML = '<div class="diagnosis-box">';
+            
+            if (type1Score >= 3 || patientData.typeFeatures.includes('symptoms')) {
+                patientData.diabetesType = 'type1';
+                diagnosisHTML += `
+                    <h3>🔬 Clinical Assessment: Type 1 Diabetes Likely</h3>
+                    <p><strong>Features suggestive of Type 1:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        ${patientData.typeFeatures.map(f => {
+                            if (f === 'youngAge') return '<li>Age <35 at diagnosis</li>';
+                            if (f === 'autoimmune') return '<li>Autoimmune features present</li>';
+                            if (f === 'symptoms') return '<li>Classic symptoms (polyuria, polydipsia, weight loss)</li>';
+                            if (f === 'bloodSugar') return '<li>Very high glucose/HbA1c at presentation</li>';
+                            if (f === 'poorControl') return '<li>Poor control on oral medications</li>';
+                            return '';
+                        }).join('')}
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Recommendation:</strong> Order islet autoantibodies (GAD-65, IA-2, ZnT8) + C-peptide to confirm. Initiate insulin therapy.</p>
+                `;
+                document.getElementById('autoantibodyTest').style.display = 'list-item';
+                document.getElementById('cPeptide').style.display = 'list-item';
+            } else {
+                patientData.diabetesType = 'type2';
+                diagnosisHTML += `
+                    <h3>🔬 Clinical Assessment: Type 2 Diabetes Likely</h3>
+                    <p><strong>Features suggestive of Type 2:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Age ${age} years (typically older adults, but can occur at any age)</li>
+                        <li>BMI ${bmi ? bmi.toFixed(1) : 'N/A'} kg/m²</li>
+                        <li>Gradual onset, less acute symptoms</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Recommendation:</strong> Initiate lifestyle modifications + pharmacotherapy as indicated. Consider autoantibody testing if atypical features present.</p>
+                `;
+            }
+            
+            diagnosisHTML += '</div>';
+            document.getElementById('diabetesTypeResult').innerHTML = diagnosisHTML;
+            
+            showStep(3);
+        }
+        
+        function proceedToTreatment() {
+            const complications = document.querySelectorAll('input[name="complication"]:checked');
+            patientData.complications = Array.from(complications).map(c => c.value);
+            
+            if (patientData.diabetesType === 'type1') {
+                generateType1Treatment();
+            } else {
+                generateType2Treatment();
+            }
+            
+            generateBillingCodes();
+            generateFollowUp();
+            
+            showStep(4);
+        }
+        
+        function generateType1Treatment() {
+            let html = `
+                <div class="alert alert-success">
+                    <h3>Type 1 Diabetes Management</h3>
+                    <p><strong>HbA1c Goal:</strong> <7.0% for most adults (individualize based on hypoglycemia risk, life expectancy, complications)</p>
+                </div>
+                
+                <div class="results-box">
+                    <h3>🎯 Glycemic Targets (2025 ADA):</h3>
+                    <ul>
+                        <li><strong>Preprandial glucose:</strong> 80-130 mg/dL</li>
+                        <li><strong>Postprandial glucose (1-2 hr after meal):</strong> <180 mg/dL</li>
+                        <li><strong>Time in Range (70-180 mg/dL):</strong> >70%</li>
+                        <li><strong>Time below range (<70 mg/dL):</strong> <4%</li>
+                        <li><strong>Time below range (<54 mg/dL):</strong> <1%</li>
+                    </ul>
+                </div>
+                
+                <div class="results-box">
+                    <h3>💉 Insulin Regimen Options (2026 ADA Preference: AID Systems)</h3>
+                    
+                    <div class="alert alert-info" style="margin-bottom: 20px;">
+                        <strong>⭐ PREFERRED (2026 ADA Update):</strong> Automated Insulin Delivery (AID) systems are now the PREFERRED insulin delivery method over MDI, CSII, and sensor-augmented pumps for people with Type 1 diabetes.
+                    </div>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Regimen</th>
+                                <th>Description</th>
+                                <th>Advantages</th>
+                                <th>Considerations</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Automated Insulin Delivery (AID)</strong></td>
+                                <td>Hybrid closed-loop system: CGM + insulin pump with algorithm that automatically adjusts basal insulin delivery</td>
+                                <td>• Highest TIR<br>• Lowest hypoglycemia<br>• Reduced burden<br>• Better overnight control</td>
+                                <td>• Cost/insurance<br>• Training required<br>• Device management</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Multiple Daily Injections (MDI)</strong></td>
+                                <td>Basal insulin (once or twice daily) + Rapid-acting insulin (before meals)</td>
+                                <td>• No device needed<br>• Lower cost<br>• Flexibility<br>• Widely available</td>
+                                <td>• 4+ injections/day<br>• Manual calculations<br>• Higher hypoglycemia risk vs AID</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Insulin Pump (CSII)</strong></td>
+                                <td>Continuous subcutaneous insulin infusion via pump (rapid-acting insulin only)</td>
+                                <td>• Flexible basal rates<br>• Precise dosing<br>• Better than MDI in some studies</td>
+                                <td>• Device 24/7<br>• Training required<br>• Cost</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="results-box">
+                    <h3>💊 Insulin Types & Dosing</h3>
+                    
+                    <h4 style="color: #3498db; margin-top: 15px;">Basal Insulin (Long-Acting):</h4>
+                    <ul>
+                        <li><strong>Insulin Glargine U-100 (Lantus, Basaglar):</strong> Once daily, 24-hour duration</li>
+                        <li><strong>Insulin Glargine U-300 (Toujeo):</strong> Once daily, >24-hour duration, less hypoglycemia</li>
+                        <li><strong>Insulin Degludec U-100/U-200 (Tresiba):</strong> Once daily, >42-hour duration, LOWEST hypoglycemia risk</li>
+                        <li><strong>Insulin Detemir (Levemir):</strong> Once or twice daily, may need BID dosing</li>
+                        <li><strong>NPH Insulin:</strong> Twice daily, intermediate-acting (cheaper but higher hypoglycemia risk)</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Starting dose:</strong> ~0.5 units/kg/day (50% basal, 50% bolus)</p>
+                    
+                    <h4 style="color: #3498db; margin-top: 20px;">Prandial Insulin (Rapid-Acting):</h4>
+                    <ul>
+                        <li><strong>Insulin Lispro (Humalog):</strong> 15 min before meals, peak 1-2 hr</li>
+                        <li><strong>Insulin Aspart (Novolog):</strong> 15 min before meals, peak 1-2 hr</li>
+                        <li><strong>Insulin Glulisine (Apidra):</strong> 15 min before meals, peak 1-2 hr</li>
+                        <li><strong>Ultra-Rapid Insulin Lispro (Lyumjev):</strong> At mealtime, faster onset</li>
+                        <li><strong>Ultra-Rapid Insulin Aspart (Fiasp):</strong> At mealtime, faster onset</li>
+                        <li><strong>Inhaled Insulin (Afrezza):</strong> At mealtime, very rapid onset/offset</li>
+                    </ul>
+                    <p style="margin-top: 10px;"><strong>Dosing:</strong> Carbohydrate counting (1 unit per 10-15g carb) + Correction doses (insulin sensitivity factor)</p>
+                </div>
+                
+                <div class="results-box">
+                    <h3>📱 Continuous Glucose Monitoring (CGM)</h3>
+                    <p><strong>2025 ADA:</strong> CGM recommended for ALL people with Type 1 diabetes, ideally at diagnosis.</p>
+                    <ul>
+                        <li><strong>CGM Options:</strong> Dexcom G7, FreeStyle Libre 3, Medtronic Guardian 4</li>
+                        <li><strong>Benefits:</strong> Real-time glucose, alerts for hypo/hyperglycemia, trend arrows, reduced HbA1c, less hypoglycemia</li>
+                        <li><strong>Target:</strong> Time in Range (70-180 mg/dL) >70%, Time below range <4%</li>
+                    </ul>
+                </div>
+                
+                <div class="results-box">
+                    <h3>🎓 Diabetes Self-Management Education (DSMES)</h3>
+                    <ul>
+                        <li><strong>Carbohydrate counting</strong> - match insulin to carb intake</li>
+                        <li><strong>Correction doses</strong> - insulin sensitivity factor (ISF)</li>
+                        <li><strong>Sick day management</strong> - never stop basal insulin</li>
+                        <li><strong>Exercise</strong> - may need to reduce insulin or consume carbs</li>
+                        <li><strong>Hypoglycemia recognition & treatment</strong> - 15-15 rule (15g fast carbs, recheck in 15 min)</li>
+                        <li><strong>Glucagon prescription</strong> - for severe hypoglycemia (nasal, injectable, or autoinjector)</li>
+                    </ul>
+                </div>
+                
+                <div class="results-box">
+                    <h3>🩺 Monitoring Schedule:</h3>
+                    <ul>
+                        <li><strong>HbA1c:</strong> Every 3 months (quarterly)</li>
+                        <li><strong>CGM data review:</strong> At each visit (or remote monitoring)</li>
+                        <li><strong>Blood pressure:</strong> At every visit</li>
+                        <li><strong>Annual screening:</strong> Eye exam, foot exam, UACR, lipids, liver function</li>
+                        <li><strong>Thyroid (TSH):</strong> At diagnosis, then periodically (higher autoimmune risk)</li>
+                    </ul>
+                </div>
+            `;
+            
+            document.getElementById('treatmentPlan').innerHTML = html;
+        }
+        
+        function generateType2Treatment() {
+            const hasASCVD = patientData.complications.includes('ascvd');
+            const hasCKD = patientData.complications.includes('ckd');
+            const hasHF = patientData.complications.includes('hf');
+            const hasObesity = patientData.complications.includes('obesity');
+            
+            let html = `
+                <div class="alert alert-success">
+                    <h3>Type 2 Diabetes Management</h3>
+                    <p><strong>HbA1c Goal:</strong> <7.0% for most adults (individualize: <6.5% if early disease, no hypoglycemia; <8.0% if advanced complications, limited life expectancy)</p>
+                </div>
+                
+                <div class="results-box">
+                    <h3>🍎 Lifestyle Modifications (Foundation of Treatment):</h3>
+                    <ul>
+                        <li><strong>Medical Nutrition Therapy (MNT):</strong> Individualized meal planning, carbohydrate awareness, Mediterranean or DASH diet</li>
+                        <li><strong>Physical Activity:</strong> 150 min/week moderate aerobic + resistance training 2-3x/week</li>
+                        <li><strong>Weight Loss:</strong> 5-15% weight loss significantly improves glycemic control (GLP-1 RAs/dual agonists most effective)</li>
+                        <li><strong>Diabetes Self-Management Education (DSMES):</strong> At diagnosis, annually, when not meeting goals</li>
+                    </ul>
+                </div>
+                
+                <div class="alert alert-info">
+                    <h3>💊 Medication Selection Strategy (2025 ADA)</h3>
+                    <p><strong>Guiding Principle:</strong> Prioritize cardiovascular and kidney protection alongside glucose lowering.</p>
+                </div>
+            `;
+            
+            // Determine medication recommendations
+            if (hasASCVD || hasCKD || hasHF) {
+                html += `
+                    <div class="results-box" style="border: 3px solid #28a745;">
+                        <h3>🎯 FIRST-LINE RECOMMENDATION (Based on Comorbidities):</h3>
+                        <p><strong>INDEPENDENT of HbA1c:</strong> Initiate GLP-1 RA and/or SGLT2 inhibitor with proven CV/renal benefit</p>
+                        
+                        ${hasASCVD ? '<p><strong>✓ Established ASCVD:</strong> GLP-1 RA (with CV benefit) OR SGLT2 inhibitor</p>' : ''}
+                        ${hasCKD ? '<p><strong>✓ Chronic Kidney Disease:</strong> SGLT2 inhibitor (FIRST choice) or GLP-1 RA</p>' : ''}
+                        ${hasHF ? '<p><strong>✓ Heart Failure:</strong> SGLT2 inhibitor (FIRST choice)</p>' : ''}
+                        
+                        <p style="margin-top: 15px;"><strong>Note:</strong> Metformin can be added if not contraindicated, but GLP-1/SGLT2 takes priority for organ protection.</p>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="results-box">
+                        <h3>🎯 First-Line Treatment (No ASCVD/CKD/HF):</h3>
+                        <p><strong>Start with Metformin</strong> (unless contraindicated)</p>
+                        <ul>
+                            <li>Most cost-effective</li>
+                            <li>Proven long-term safety</li>
+                            <li>Weight neutral</li>
+                            <li>Low hypoglycemia risk</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Dosing:</strong> Start 500mg daily or BID with meals, titrate up to 1000mg BID (max 2000-2550mg/day)</p>
+                        <p><strong>Contraindication:</strong> eGFR <30 mL/min/1.73m² (do not start); discontinue if eGFR falls <30</p>
+                    </div>
+                `;
+            }
+            
+            // Medication options
+            html += `
+                <div class="results-box">
+                    <h3>💊 Second-Line / Add-On Medications:</h3>
+                    <p><strong>If HbA1c not at goal after 3 months, add ONE of the following:</strong></p>
+                </div>
+                
+                <div class="medication-card">
+                    <h4>GLP-1 Receptor Agonists (Preferred for Weight Loss + CV Benefit)</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Indications:</span>
+                        <span>ASCVD, high CV risk, need weight loss, HbA1c >7%</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Options:</span>
+                        <span>
+                            • <strong>Semaglutide (Ozempic)</strong> 0.25mg SC weekly → 0.5mg → 1mg → 2mg<br>
+                            • <strong>Dulaglutide (Trulicity)</strong> 0.75mg SC weekly → 1.5mg → 3mg → 4.5mg<br>
+                            • <strong>Liraglutide (Victoza)</strong> 0.6mg SC daily → 1.2mg → 1.8mg<br>
+                            • <strong>Tirzepatide (Mounjaro)</strong> - Dual GIP/GLP-1: 2.5mg weekly → max 15mg (HIGHEST efficacy)
+                        </span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">HbA1c Reduction:</span>
+                        <span>1.0-2.0% (tirzepatide highest)</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Weight Effect:</span>
+                        <span>Weight loss 5-15% (dose-dependent)</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">CV Benefit:</span>
+                        <span>Semaglutide, dulaglutide, liraglutide: Proven MACE reduction</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Side Effects:</span>
+                        <span>Nausea, vomiting, diarrhea (transient); increased gallbladder disease risk</span>
+                    </div>
+                </div>
+                
+                <div class="medication-card">
+                    <h4>SGLT2 Inhibitors (Preferred for CKD, Heart Failure)</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Indications:</span>
+                        <span>CKD (eGFR ≥20), heart failure, ASCVD</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Options:</span>
+                        <span>
+                            • <strong>Empagliflozin (Jardiance)</strong> 10mg daily → 25mg<br>
+                            • <strong>Dapagliflozin (Farxiga)</strong> 5mg daily → 10mg<br>
+                            • <strong>Canagliflozin (Invokana)</strong> 100mg daily → 300mg
+                        </span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">HbA1c Reduction:</span>
+                        <span>0.5-1.0% (efficacy decreases with eGFR <45)</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Weight Effect:</span>
+                        <span>Weight loss 2-3 kg</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">CV/Renal Benefit:</span>
+                        <span>Slows CKD progression, reduces HF hospitalizations, CV death benefit</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Side Effects:</span>
+                        <span>Genital mycotic infections (10-15%), UTIs, volume depletion, DKA (rare, risk in T1DM or insulin-deficient states)</span>
+                    </div>
+                </div>
+                
+                <div class="medication-card">
+                    <h4>DPP-4 Inhibitors (Weight Neutral, Well-Tolerated)</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Options:</span>
+                        <span>
+                            • <strong>Sitagliptin (Januvia)</strong> 100mg daily (50mg if eGFR <50, 25mg if <30)<br>
+                            • <strong>Linagliptin (Tradjenta)</strong> 5mg daily (no dose adjustment for renal impairment)<br>
+                            • <strong>Saxagliptin (Onglyza)</strong> 5mg daily (2.5mg if eGFR <45)
+                        </span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">HbA1c Reduction:</span>
+                        <span>0.5-0.8%</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Pros:</span>
+                        <span>Well-tolerated, weight neutral, low hypoglycemia, once daily</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Cons:</span>
+                        <span>No CV/renal benefit; lower efficacy than GLP-1/SGLT2</span>
+                    </div>
+                </div>
+                
+                <div class="medication-card">
+                    <h4>Sulfonylureas (Low Cost Option)</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Options:</span>
+                        <span>
+                            • <strong>Glipizide</strong> 5mg daily → max 40mg/day<br>
+                            • <strong>Glyburide</strong> 2.5mg daily → max 20mg/day<br>
+                            • <strong>Glimepiride</strong> 1mg daily → max 8mg/day
+                        </span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">HbA1c Reduction:</span>
+                        <span>1.0-1.5%</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Pros:</span>
+                        <span>Inexpensive, effective</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Cons:</span>
+                        <span>Hypoglycemia risk, weight gain (2-3 kg), no CV/renal benefit</span>
+                    </div>
+                </div>
+                
+                <div class="medication-card">
+                    <h4>Insulin (When Oral Agents Insufficient)</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">When to Start:</span>
+                        <span>HbA1c >10%, glucose >300 mg/dL, symptomatic hyperglycemia, weight loss, ketosis</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Regimen:</span>
+                        <span>
+                            <strong>Step 1:</strong> Add basal insulin (glargine, degludec, detemir)<br>
+                            • Start 10 units daily or 0.1-0.2 units/kg<br>
+                            • Titrate by 2 units every 3 days to reach FPG 80-130 mg/dL<br><br>
+                            <strong>Step 2:</strong> If HbA1c still not at goal → Add prandial insulin (lispro, aspart, glulisine) before largest meal<br><br>
+                            <strong>Step 3:</strong> Full basal-bolus (basal + prandial before each meal)
+                        </span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Important:</span>
+                        <span>Continue metformin, GLP-1, SGLT2 when adding insulin. Discontinue sulfonylureas (duplicates insulin effect).</span>
+                    </div>
+                </div>
+                
+                <div class="results-box">
+                    <h3>🔄 Treatment Algorithm Summary:</h3>
+                    <p><strong>1. Lifestyle + Metformin</strong> (if no ASCVD/CKD/HF)</p>
+                    <p><strong>2. If ASCVD/CKD/HF present:</strong> Add GLP-1 RA and/or SGLT2i (regardless of HbA1c)</p>
+                    <p><strong>3. If HbA1c not at goal after 3 months:</strong> Add second agent based on patient factors:</p>
+                    <ul style="margin-left: 40px;">
+                        <li>Need weight loss → GLP-1 RA or dual GIP/GLP-1 RA</li>
+                        <li>CKD or HF → SGLT2i</li>
+                        <li>Cost concern → Sulfonylurea or insulin</li>
+                        <li>Avoid hypoglycemia → DPP-4i, GLP-1, SGLT2i</li>
+                    </ul>
+                    <p><strong>4. If HbA1c >10% or symptomatic:</strong> Consider insulin (basal insulin +/- GLP-1)</p>
+                </div>
+                
+                <div class="results-box">
+                    <h3>📅 Monitoring Schedule:</h3>
+                    <ul>
+                        <li><strong>HbA1c:</strong> Every 3 months until at goal, then every 6 months</li>
+                        <li><strong>Self-monitoring blood glucose (SMBG):</strong> If on insulin or sulfonylureas</li>
+                        <li><strong>CGM:</strong> Consider for patients on basal insulin not at goal (2025 ADA expansion)</li>
+                        <li><strong>Blood pressure:</strong> At every visit (goal <130/80 mmHg)</li>
+                        <li><strong>Annual:</strong> Eye exam, foot exam, UACR, eGFR, lipids</li>
+                    </ul>
+                </div>
+            `;
+            
+            document.getElementById('treatmentPlan').innerHTML = html;
+        }
+        
+        function generateBillingCodes() {
+            let icd10 = '';
+            let cpt = '';
+            
+            if (patientData.diabetesType === 'type1') {
+                icd10 = `
+                    <p><strong>E10.9</strong> - Type 1 diabetes mellitus without complications</p>
+                    <p style="font-size: 13px; color: #666;">Use more specific codes if complications present:</p>
+                    <ul style="margin-left: 20px; font-size: 13px; color: #666;">
+                        <li><strong>E10.65</strong> - Type 1 DM with hyperglycemia</li>
+                        <li><strong>E10.22</strong> - Type 1 DM with diabetic CKD</li>
+                        <li><strong>E10.36</strong> - Type 1 DM with diabetic cataract</li>
+                        <li><strong>E10.40</strong> - Type 1 DM with diabetic neuropathy</li>
+                    </ul>
+                `;
+            } else {
+                icd10 = `
+                    <p><strong>E11.9</strong> - Type 2 diabetes mellitus without complications</p>
+                    <p style="font-size: 13px; color: #666;">Use more specific codes if complications present:</p>
+                    <ul style="margin-left: 20px; font-size: 13px; color: #666;">
+                        <li><strong>E11.65</strong> - Type 2 DM with hyperglycemia</li>
+                        <li><strong>E11.22</strong> - Type 2 DM with diabetic CKD</li>
+                        <li><strong>E11.36</strong> - Type 2 DM with diabetic cataract</li>
+                        <li><strong>E11.40</strong> - Type 2 DM with diabetic neuropathy</li>
+                        <li><strong>E11.51</strong> - Type 2 DM with diabetic peripheral angiopathy without gangrene</li>
+                    </ul>
+                `;
+            }
+            
+            // Add comorbidity codes
+            if (patientData.complications) {
+                if (patientData.complications.includes('ascvd')) {
+                    icd10 += '<p><strong>I25.10</strong> - Atherosclerotic heart disease</p>';
+                }
+                if (patientData.complications.includes('ckd')) {
+                    icd10 += '<p><strong>N18.3</strong> - Chronic kidney disease, stage 3</p>';
+                    icd10 += '<p><strong>I12.9</strong> - Hypertensive CKD (if HTN present)</p>';
+                }
+                if (patientData.complications.includes('hf')) {
+                    icd10 += '<p><strong>I50.9</strong> - Heart failure, unspecified</p>';
+                }
+                if (patientData.complications.includes('obesity')) {
+                    icd10 += '<p><strong>E66.9</strong> - Obesity, unspecified</p>';
+                }
+            }
+            
+            cpt = `
+                <p><strong>99203-99205</strong> - New patient office visit (level 3-5 based on complexity)</p>
+                <p><strong>99213-99215</strong> - Established patient office visit</p>
+                <p><strong>99490-99491</strong> - Chronic care management services</p>
+                <p><strong>95249-95251</strong> - CGM interpretation and report (if applicable)</p>
+                <p><strong>97802-97804</strong> - Medical nutrition therapy</p>
+                <p><strong>G0447</strong> - Behavioral counseling for obesity (Medicare)</p>
+                <p style="margin-top: 10px; font-size: 13px;"><strong>Lab CPT Codes:</strong> 83036 (HbA1c), 80053 (CMP), 80061 (Lipids), 82570 (UACR), 82565 (Creatinine, urine), 84443 (TSH)</p>
+            `;
+            
+            document.getElementById('billingCodes').innerHTML = `
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h4 style="color: #3498db; margin-bottom: 10px;">ICD-10 Diagnosis Codes:</h4>
+                    ${icd10}
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 8px;">
+                    <h4 style="color: #3498db; margin-bottom: 10px;">CPT Procedure Codes:</h4>
+                    ${cpt}
+                </div>
+            `;
+        }
+        
+        function generateFollowUp() {
+            let schedule = '';
+            
+            if (patientData.diabetesType === 'type1') {
+                schedule = `
+                    <p><strong>Initial Follow-Up:</strong></p>
+                    <ul>
+                        <li>1-2 weeks after insulin initiation (phone or visit) - assess glucose patterns, adjust doses</li>
+                        <li>Monthly visits initially until stable</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Routine Follow-Up:</strong></p>
+                    <ul>
+                        <li><strong>Every 3 months:</strong> Office visit, HbA1c, CGM data review, insulin adjustment</li>
+                        <li><strong>Annual:</strong> Comprehensive exam, dilated eye exam, foot exam, UACR, lipids, TSH</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Between Visits:</strong></p>
+                    <ul>
+                        <li>Remote CGM monitoring (if available)</li>
+                        <li>Phone/portal access for insulin adjustments</li>
+                        <li>DSMES reinforcement</li>
+                    </ul>
+                `;
+            } else {
+                schedule = `
+                    <p><strong>Initial Follow-Up:</strong></p>
+                    <ul>
+                        <li>1 month after starting new medication - assess tolerance, efficacy, side effects</li>
+                        <li>Titrate medication doses as needed</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Routine Follow-Up:</strong></p>
+                    <ul>
+                        <li><strong>Every 3 months:</strong> Until HbA1c at goal</li>
+                        <li><strong>Every 6 months:</strong> Once at goal and stable</li>
+                        <li>Check HbA1c, BP, weight, medication adherence</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Annual Comprehensive Visit:</strong></p>
+                    <ul>
+                        <li>Dilated eye exam (ophthalmology referral)</li>
+                        <li>Comprehensive foot exam (monofilament, vibration, pulses)</li>
+                        <li>UACR (kidney function)</li>
+                        <li>Lipid panel (ASCVD risk assessment)</li>
+                        <li>TSH (if indicated)</li>
+                        <li>Influenza vaccine, COVID-19 vaccine, pneumococcal vaccine (per CDC schedule)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>More Frequent If:</strong></p>
+                    <ul>
+                        <li>Not at glycemic goal</li>
+                        <li>Medication changes</li>
+                        <li>New complications</li>
+                        <li>Hypoglycemia episodes</li>
+                    </ul>
+                `;
+            }
+            
+            document.getElementById('followupSchedule').innerHTML = schedule;
+        }
+        
+        function restart() {
+            // Reset all inputs
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+            document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+            document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+            
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show first step
+            document.getElementById('step1').classList.add('active');
+            patientData = {};
+            currentStep = 1;
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+        
+        // Initialize progress bar
+        updateProgress();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Hyperlipidemia & ASCVD Prevention Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .disclaimer {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #856404;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .step {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-title {
+            font-size: 22px;
+            color: #f39c12;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .question-text {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .input-group label {
+            min-width: 220px;
+            font-weight: 500;
+        }
+        
+        .input-group input[type="number"],
+        .input-group select {
+            padding: 8px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 180px;
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: #f39c12;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-item:hover {
+            background: #e9ecef;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .radio-item:hover {
+            background: #e9ecef;
+        }
+        
+        .radio-item input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .radio-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-restart {
+            background: #28a745;
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-restart:hover {
+            background: #218838;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+        
+        .alert h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .alert ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .alert li {
+            margin-bottom: 5px;
+        }
+        
+        .results-section {
+            margin-top: 20px;
+        }
+        
+        .results-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .results-box h3 {
+            color: #f39c12;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .results-box ul {
+            margin-left: 20px;
+        }
+        
+        .results-box li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .medication-card {
+            background: white;
+            border: 2px solid #f39c12;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .medication-card h4 {
+            color: #f39c12;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .medication-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .med-detail-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .med-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #e9ecef;
+            margin: 20px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+            transition: width 0.3s;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 12px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+        }
+        
+        .comparison-table th {
+            background: #f39c12;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .risk-box {
+            background: white;
+            border: 3px solid #f39c12;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .risk-box h3 {
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+        
+        .risk-low {
+            border-color: #28a745;
+        }
+        
+        .risk-borderline {
+            border-color: #ffc107;
+        }
+        
+        .risk-intermediate {
+            border-color: #fd7e14;
+        }
+        
+        .risk-high {
+            border-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🩺 Comprehensive Hyperlipidemia & ASCVD Prevention</h1>
+            <p>Based on 2018/2019 ACC/AHA Guidelines | Statin Selection & Secondary Prevention</p>
+        </div>
+        
+        <div class="disclaimer">
+            ⚠️ <strong>Clinical Decision Support Tool:</strong> This tool follows 2018/2019 ACC/AHA cholesterol management guidelines. It does not replace clinical judgment. Always consider patient-specific factors and consult current guidelines.
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+        
+        <div class="content">
+            <!-- Step 1: Clinical Scenario -->
+            <div class="step active" id="step1">
+                <div class="step-title">Step 1: Clinical Scenario</div>
+                
+                <div class="question">
+                    <div class="question-text">What is the clinical situation?</div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="primary" name="scenario" value="primary">
+                            <label for="primary">Primary Prevention - NO prior ASCVD (preventing first heart attack/stroke)</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="secondary" name="scenario" value="secondary">
+                            <label for="secondary">Secondary Prevention - Established ASCVD (CAD, MI, stroke, PAD)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-primary" onclick="assessScenario()">Continue</button>
+                </div>
+            </div>
+            
+            <!-- Step 2A: Primary Prevention Assessment -->
+            <div class="step" id="step2a">
+                <div class="step-title">Step 2: Primary Prevention - Risk Assessment</div>
+                
+                <div class="alert alert-info">
+                    <h3>📊 Laboratory Values & Demographics</h3>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Enter lipid panel results:</div>
+                    <div class="input-group">
+                        <label>LDL Cholesterol (mg/dL):</label>
+                        <input type="number" id="ldl_primary" placeholder="e.g., 150">
+                    </div>
+                    <div class="input-group">
+                        <label>Total Cholesterol (mg/dL):</label>
+                        <input type="number" id="totalChol_primary" placeholder="e.g., 220">
+                    </div>
+                    <div class="input-group">
+                        <label>HDL Cholesterol (mg/dL):</label>
+                        <input type="number" id="hdl_primary" placeholder="e.g., 45">
+                    </div>
+                    <div class="input-group">
+                        <label>Triglycerides (mg/dL):</label>
+                        <input type="number" id="trig_primary" placeholder="e.g., 150">
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Patient demographics:</div>
+                    <div class="input-group">
+                        <label>Age (years):</label>
+                        <input type="number" id="age_primary" min="20" max="120" placeholder="e.g., 55">
+                    </div>
+                    <div class="input-group">
+                        <label>Sex:</label>
+                        <select id="sex_primary">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Race:</label>
+                        <select id="race_primary">
+                            <option value="white">White</option>
+                            <option value="black">Black/African American</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Systolic BP (mmHg):</label>
+                        <input type="number" id="sbp_primary" placeholder="e.g., 135">
+                    </div>
+                    <div class="input-group">
+                        <label>On BP medication?</label>
+                        <select id="bpmed_primary">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Current smoker?</label>
+                        <select id="smoker_primary">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Diabetes?</label>
+                        <select id="diabetes_primary">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Risk-Enhancing Factors (select all that apply):</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="famhx" name="riskenhancer" value="famhx">
+                            <label for="famhx">Family history of premature ASCVD (men <55, women <65)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ckd" name="riskenhancer" value="ckd">
+                            <label for="ckd">Chronic kidney disease (eGFR <60 or albuminuria)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="metsyn" name="riskenhancer" value="metsyn">
+                            <label for="metsyn">Metabolic syndrome</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="southasian" name="riskenhancer" value="southasian">
+                            <label for="southasian">South Asian ancestry</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="inflammatory" name="riskenhancer" value="inflammatory">
+                            <label for="inflammatory">Chronic inflammatory conditions (RA, psoriasis, HIV)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="women_factors" name="riskenhancer" value="women_factors">
+                            <label for="women_factors">Women-specific: Preeclampsia, premature menopause</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="trig_persistent" name="riskenhancer" value="trig_persistent">
+                            <label for="trig_persistent">Persistently elevated triglycerides (≥175 mg/dL on 3 occasions)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="previousStep(2)">Back</button>
+                    <button class="btn-primary" onclick="calculatePrimaryRisk()">Calculate Risk & Continue</button>
+                </div>
+            </div>
+            
+            <!-- Step 2B: Secondary Prevention Assessment -->
+            <div class="step" id="step2b">
+                <div class="step-title">Step 2: Secondary Prevention - Current Status</div>
+                
+                <div class="alert alert-danger">
+                    <h3>⚠️ Patient Has Established ASCVD</h3>
+                    <p><strong>Automatic Indication for High-Intensity Statin Therapy</strong></p>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Type of ASCVD (select all that apply):</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cad" name="ascvd_type" value="cad">
+                            <label for="cad">Coronary artery disease (CAD)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="mi" name="ascvd_type" value="mi">
+                            <label for="mi">Prior myocardial infarction (MI)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="acs" name="ascvd_type" value="acs">
+                            <label for="acs">Recent acute coronary syndrome (within 12 months)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="stroke" name="ascvd_type" value="stroke">
+                            <label for="stroke">Prior ischemic stroke or TIA</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="pad" name="ascvd_type" value="pad">
+                            <label for="pad">Peripheral arterial disease (PAD)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Current lipid panel:</div>
+                    <div class="input-group">
+                        <label>LDL Cholesterol (mg/dL):</label>
+                        <input type="number" id="ldl_secondary" placeholder="e.g., 95">
+                    </div>
+                    <div class="input-group">
+                        <label>Total Cholesterol (mg/dL):</label>
+                        <input type="number" id="totalChol_secondary" placeholder="e.g., 180">
+                    </div>
+                    <div class="input-group">
+                        <label>HDL Cholesterol (mg/dL):</label>
+                        <input type="number" id="hdl_secondary" placeholder="e.g., 40">
+                    </div>
+                    <div class="input-group">
+                        <label>Triglycerides (mg/dL):</label>
+                        <input type="number" id="trig_secondary" placeholder="e.g., 200">
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Patient age:</div>
+                    <div class="input-group">
+                        <label>Age (years):</label>
+                        <input type="number" id="age_secondary" min="18" max="120" placeholder="e.g., 62">
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Is patient currently on a statin?</div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="statin_no" name="current_statin" value="no">
+                            <label for="statin_no">No - not on statin</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="statin_yes" name="current_statin" value="yes">
+                            <label for="statin_yes">Yes - currently on statin</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question" id="statin_details" style="display:none;">
+                    <div class="question-text">Current statin regimen:</div>
+                    <div class="input-group">
+                        <label>Statin intensity:</label>
+                        <select id="statin_intensity">
+                            <option value="low">Low-intensity</option>
+                            <option value="moderate">Moderate-intensity</option>
+                            <option value="high">High-intensity</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Also on ezetimibe?</label>
+                        <select id="on_ezetimibe">
+                            <option value="no">No</option>
+                            <option value="yes">Yes</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="previousStep(2)">Back</button>
+                    <button class="btn-primary" onclick="assessSecondaryPrevention()">View Treatment Plan</button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Treatment Plan -->
+            <div class="step" id="step3">
+                <div class="step-title">Step 3: Treatment Plan & Medication Selection</div>
+                
+                <div id="riskAssessmentResult"></div>
+                <div id="treatmentRecommendation"></div>
+                
+                <div class="results-box" style="background: #e7f3ff; border-left: 4px solid #f39c12;">
+                    <h3>💳 ICD-10 & CPT Billing Codes</h3>
+                    <div id="billingCodes"></div>
+                </div>
+                
+                <div class="results-box">
+                    <h3>📅 Follow-Up & Monitoring Schedule:</h3>
+                    <div id="followupSchedule"></div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-restart" onclick="restart()">Start New Assessment</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Based on 2018/2019 ACC/AHA Cholesterol Management Guidelines | For educational purposes only
+        </div>
+    </div>
+    
+    <script>
+        let currentStep = 1;
+        let patientData = {};
+        
+        function updateProgress() {
+            const progress = (currentStep / 3) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function showStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            const stepElement = document.getElementById('step' + stepNumber);
+            if (stepElement) {
+                stepElement.classList.add('active');
+                currentStep = typeof stepNumber === 'string' ? parseInt(stepNumber.replace(/[a-z]/g, '')) : stepNumber;
+                updateProgress();
+                window.scrollTo(0, 0);
+            }
+        }
+        
+        function previousStep(fromStep) {
+            showStep(1);
+        }
+        
+        function assessScenario() {
+            const scenario = document.querySelector('input[name="scenario"]:checked');
+            if (!scenario) {
+                alert('Please select a clinical scenario');
+                return;
+            }
+            
+            patientData.scenario = scenario.value;
+            
+            if (scenario.value === 'primary') {
+                showStep('2a');
+            } else {
+                showStep('2b');
+                // Show statin details if currently on statin
+                const statinRadios = document.querySelectorAll('input[name="current_statin"]');
+                statinRadios.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        if (this.value === 'yes') {
+                            document.getElementById('statin_details').style.display = 'block';
+                        } else {
+                            document.getElementById('statin_details').style.display = 'none';
+                        }
+                    });
+                });
+            }
+        }
+        
+        function calculatePrimaryRisk() {
+            // Collect all data
+            const ldl = parseInt(document.getElementById('ldl_primary').value);
+            const totalChol = parseInt(document.getElementById('totalChol_primary').value);
+            const hdl = parseInt(document.getElementById('hdl_primary').value);
+            const trig = parseInt(document.getElementById('trig_primary').value);
+            const age = parseInt(document.getElementById('age_primary').value);
+            const sex = document.getElementById('sex_primary').value;
+            const race = document.getElementById('race_primary').value;
+            const sbp = parseInt(document.getElementById('sbp_primary').value);
+            const bpMed = document.getElementById('bpmed_primary').value === 'yes';
+            const smoker = document.getElementById('smoker_primary').value === 'yes';
+            const diabetes = document.getElementById('diabetes_primary').value === 'yes';
+            
+            if (!ldl || !totalChol || !hdl || !age || !sbp) {
+                alert('Please fill in all required fields (LDL, Total Chol, HDL, Age, SBP)');
+                return;
+            }
+            
+            patientData.ldl = ldl;
+            patientData.totalChol = totalChol;
+            patientData.hdl = hdl;
+            patientData.trig = trig;
+            patientData.age = age;
+            patientData.sex = sex;
+            patientData.diabetes = diabetes;
+            
+            // Collect risk enhancers
+            const riskEnhancers = document.querySelectorAll('input[name="riskenhancer"]:checked');
+            patientData.riskEnhancers = Array.from(riskEnhancers).map(re => re.value);
+            
+            // Simplified 10-year ASCVD risk calculation (Pooled Cohort Equations approximation)
+            // Note: This is a simplified version for demonstration
+            let risk = 0;
+            
+            // Age contribution (major factor)
+            if (age < 40) risk = 2;
+            else if (age < 50) risk = 5;
+            else if (age < 60) risk = 10;
+            else if (age < 70) risk = 18;
+            else risk = 25;
+            
+            // Adjust for other factors
+            if (totalChol > 240) risk += 3;
+            else if (totalChol > 200) risk += 1;
+            
+            if (hdl < 40) risk += 2;
+            else if (hdl < 50) risk += 1;
+            else if (hdl >= 60) risk -= 1;
+            
+            if (sbp >= 160) risk += 4;
+            else if (sbp >= 140) risk += 2;
+            
+            if (diabetes) risk += 5;
+            if (smoker) risk += 3;
+            if (race === 'black') risk += 2;
+            if (sex === 'male') risk += 2;
+            
+            // Cap at reasonable values
+            risk = Math.max(1, Math.min(40, risk));
+            
+            patientData.ascvdRisk = risk;
+            
+            generatePrimaryPreventionPlan();
+            showStep(3);
+        }
+        
+        function generatePrimaryPreventionPlan() {
+            const ldl = patientData.ldl;
+            const risk = patientData.ascvdRisk;
+            const age = patientData.age;
+            const diabetes = patientData.diabetes;
+            
+            let riskCategory, riskClass;
+            if (risk < 5) {
+                riskCategory = 'Low';
+                riskClass = 'risk-low';
+            } else if (risk < 7.5) {
+                riskCategory = 'Borderline';
+                riskClass = 'risk-borderline';
+            } else if (risk < 20) {
+                riskCategory = 'Intermediate';
+                riskClass = 'risk-intermediate';
+            } else {
+                riskCategory = 'High';
+                riskClass = 'risk-high';
+            }
+            
+            // Display risk assessment
+            let riskHTML = `
+                <div class="risk-box ${riskClass}">
+                    <h3>📊 10-Year ASCVD Risk: ${risk}% (${riskCategory} Risk)</h3>
+                    <p><strong>Risk Category:</strong></p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>Low Risk: <5%</li>
+                        <li>Borderline Risk: 5-7.4%</li>
+                        <li>Intermediate Risk: 7.5-19.9%</li>
+                        <li>High Risk: ≥20%</li>
+                    </ul>
+                </div>
+            `;
+            
+            document.getElementById('riskAssessmentResult').innerHTML = riskHTML;
+            
+            // Generate treatment recommendation
+            let treatmentHTML = '';
+            
+            // Check for special categories
+            if (ldl >= 190) {
+                treatmentHTML = `
+                    <div class="alert alert-danger">
+                        <h3>🚨 SEVERE HYPERCHOLESTEROLEMIA</h3>
+                        <p><strong>LDL ≥190 mg/dL → Automatic indication for HIGH-INTENSITY statin</strong></p>
+                        <p>No need to calculate 10-year risk. Start high-intensity statin immediately to achieve ≥50% LDL reduction.</p>
+                    </div>
+                `;
+                treatmentHTML += generateStatinRecommendations('high', ldl);
+            } else if (age >= 40 && age <= 75 && diabetes) {
+                treatmentHTML = `
+                    <div class="alert alert-warning">
+                        <h3>DIABETES (Age 40-75) → Statin Indicated</h3>
+                        <p><strong>Recommendation:</strong> Moderate-intensity statin (or high-intensity if additional risk factors)</p>
+                    </div>
+                `;
+                treatmentHTML += generateStatinRecommendations('moderate', ldl);
+            } else if (age >= 40 && age <= 75) {
+                // Risk-based decision
+                if (risk >= 20) {
+                    treatmentHTML = `
+                        <div class="alert alert-danger">
+                            <h3>HIGH RISK (≥20%) → High-Intensity Statin Recommended</h3>
+                        </div>
+                    `;
+                    treatmentHTML += generateStatinRecommendations('high', ldl);
+                } else if (risk >= 7.5) {
+                    treatmentHTML = `
+                        <div class="alert alert-warning">
+                            <h3>INTERMEDIATE RISK (7.5-19.9%) → Moderate-Intensity Statin Recommended</h3>
+                            <p>Consider high-intensity if risk enhancers present or CAC score elevated.</p>
+                        </div>
+                    `;
+                    treatmentHTML += generateStatinRecommendations('moderate', ldl);
+                } else if (risk >= 5) {
+                    treatmentHTML = `
+                        <div class="alert alert-info">
+                            <h3>BORDERLINE RISK (5-7.4%) → Risk Discussion</h3>
+                            <p><strong>Recommendation:</strong> Clinician-patient risk discussion. Consider moderate-intensity statin if risk enhancers present.</p>
+                        </div>
+                    `;
+                    treatmentHTML += generateStatinRecommendations('moderate', ldl);
+                } else {
+                    treatmentHTML = `
+                        <div class="alert alert-success">
+                            <h3>LOW RISK (<5%) → Lifestyle Modifications</h3>
+                            <p><strong>Recommendation:</strong> Emphasize lifestyle therapy. Statin generally not indicated.</p>
+                        </div>
+                    `;
+                    treatmentHTML += generateLifestyleRecommendations();
+                }
+            } else if (age < 40) {
+                treatmentHTML = `
+                    <div class="alert alert-info">
+                        <h3>Age <40 → Focus on Lifetime Risk</h3>
+                        <p>Emphasize lifestyle modifications. Statin only if LDL ≥190 or severe risk factors.</p>
+                    </div>
+                `;
+                treatmentHTML += generateLifestyleRecommendations();
+            } else {
+                // Age >75
+                treatmentHTML = `
+                    <div class="alert alert-info">
+                        <h3>Age >75 → Individualized Decision</h3>
+                        <p>Clinician-patient risk discussion. Consider continuing statin if already on it. Initiation in primary prevention is individualized.</p>
+                    </div>
+                `;
+                treatmentHTML += generateStatinRecommendations('moderate', ldl);
+            }
+            
+            if (patientData.riskEnhancers && patientData.riskEnhancers.length > 0) {
+                treatmentHTML += `
+                    <div class="results-box">
+                        <h3>⚠️ Risk-Enhancing Factors Present:</h3>
+                        <p>These factors support statin initiation in borderline/intermediate risk:</p>
+                        <ul style="margin-left: 20px;">
+                            ${patientData.riskEnhancers.map(re => {
+                                if (re === 'famhx') return '<li>Family history of premature ASCVD</li>';
+                                if (re === 'ckd') return '<li>Chronic kidney disease</li>';
+                                if (re === 'metsyn') return '<li>Metabolic syndrome</li>';
+                                if (re === 'southasian') return '<li>South Asian ancestry</li>';
+                                if (re === 'inflammatory') return '<li>Chronic inflammatory conditions</li>';
+                                if (re === 'women_factors') return '<li>Women-specific risk factors</li>';
+                                if (re === 'trig_persistent') return '<li>Persistently elevated triglycerides</li>';
+                                return '';
+                            }).join('')}
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('treatmentRecommendation').innerHTML = treatmentHTML;
+            generateBillingCodes();
+            generateFollowUp('primary');
+        }
+        
+        function assessSecondaryPrevention() {
+            const ldl = parseInt(document.getElementById('ldl_secondary').value);
+            const age = parseInt(document.getElementById('age_secondary').value);
+            const currentStatin = document.querySelector('input[name="current_statin"]:checked');
+            
+            if (!ldl || !age || !currentStatin) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            patientData.ldl = ldl;
+            patientData.age = age;
+            patientData.onStatin = currentStatin.value === 'yes';
+            
+            if (patientData.onStatin) {
+                patientData.statinIntensity = document.getElementById('statin_intensity').value;
+                patientData.onEzetimibe = document.getElementById('on_ezetimibe').value === 'yes';
+            }
+            
+            const ascvdTypes = document.querySelectorAll('input[name="ascvd_type"]:checked');
+            patientData.ascvdTypes = Array.from(ascvdTypes).map(at => at.value);
+            
+            generateSecondaryPreventionPlan();
+            showStep(3);
+        }
+        
+        function generateSecondaryPreventionPlan() {
+            const ldl = patientData.ldl;
+            const age = patientData.age;
+            const onStatin = patientData.onStatin;
+            
+            // Determine if "very high risk"
+            const veryHighRisk = patientData.ascvdTypes.includes('acs') || 
+                                 patientData.ascvdTypes.includes('mi') ||
+                                 patientData.ascvdTypes.length >= 2;
+            
+            let riskHTML = `
+                <div class="risk-box risk-high">
+                    <h3>🚨 Secondary Prevention - Established ASCVD</h3>
+                    <p><strong>Risk Category:</strong> ${veryHighRisk ? 'VERY HIGH RISK' : 'High Risk'}</p>
+                    <p><strong>Current LDL:</strong> ${ldl} mg/dL</p>
+                    ${veryHighRisk ? '<p><strong>Very High Risk Criteria:</strong> Recent ACS, prior MI, or multiple ASCVD events</p>' : ''}
+                </div>
+            `;
+            
+            document.getElementById('riskAssessmentResult').innerHTML = riskHTML;
+            
+            // Treatment recommendations
+            let treatmentHTML = `
+                <div class="alert alert-danger">
+                    <h3>🎯 Secondary Prevention Goals</h3>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li><strong>Primary Goal:</strong> ≥50% LDL reduction with high-intensity statin</li>
+                        ${veryHighRisk ? '<li><strong>Very High Risk Goal:</strong> LDL <70 mg/dL (consider <55 mg/dL)</li>' : '<li><strong>Target LDL:</strong> <70 mg/dL</li>'}
+                    </ul>
+                </div>
+            `;
+            
+            if (!onStatin) {
+                treatmentHTML += `
+                    <div class="alert alert-warning">
+                        <h3>⚠️ NOT ON STATIN → Initiate High-Intensity Statin Immediately</h3>
+                    </div>
+                `;
+                treatmentHTML += generateStatinRecommendations('high', ldl);
+            } else {
+                if (patientData.statinIntensity !== 'high') {
+                    treatmentHTML += `
+                        <div class="alert alert-warning">
+                            <h3>⚠️ Currently on ${patientData.statinIntensity}-intensity statin</h3>
+                            <p><strong>Recommendation:</strong> Uptitrate to high-intensity statin if tolerated</p>
+                        </div>
+                    `;
+                    treatmentHTML += generateStatinRecommendations('high', ldl);
+                } else {
+                    treatmentHTML += `
+                        <div class="alert alert-success">
+                            <h3>✓ Currently on high-intensity statin</h3>
+                        </div>
+                    `;
+                }
+                
+                // Check if needs additional therapy
+                if (ldl >= 70) {
+                    treatmentHTML += `
+                        <div class="alert alert-warning">
+                            <h3>LDL ${ldl} mg/dL on ${patientData.statinIntensity}-intensity statin → Add Non-Statin Therapy</h3>
+                        </div>
+                    `;
+                    treatmentHTML += generateNonStatinTherapy(ldl, patientData.onEzetimibe, veryHighRisk);
+                } else {
+                    treatmentHTML += `
+                        <div class="alert alert-success">
+                            <h3>✓ LDL at goal (<70 mg/dL)</h3>
+                            <p>Continue current therapy. Monitor annually.</p>
+                        </div>
+                    `;
+                }
+            }
+            
+            document.getElementById('treatmentRecommendation').innerHTML = treatmentHTML;
+            generateBillingCodes();
+            generateFollowUp('secondary');
+        }
+        
+        function generateStatinRecommendations(intensity, currentLDL) {
+            let html = `<div class="results-box"><h3>💊 Statin Therapy Recommendations</h3>`;
+            
+            html += `
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Intensity</th>
+                            <th>Expected LDL Reduction</th>
+                            <th>Statin Options (Daily Dose)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="${intensity === 'high' ? 'background: #d4edda;' : ''}">
+                            <td><strong>High-Intensity</strong></td>
+                            <td>≥50% reduction</td>
+                            <td>
+                                • Atorvastatin 40-80 mg<br>
+                                • Rosuvastatin 20-40 mg
+                            </td>
+                        </tr>
+                        <tr style="${intensity === 'moderate' ? 'background: #d4edda;' : ''}">
+                            <td><strong>Moderate-Intensity</strong></td>
+                            <td>30-49% reduction</td>
+                            <td>
+                                • Atorvastatin 10-20 mg<br>
+                                • Rosuvastatin 5-10 mg<br>
+                                • Simvastatin 20-40 mg<br>
+                                • Pravastatin 40-80 mg<br>
+                                • Lovastatin 40 mg<br>
+                                • Fluvastatin XL 80 mg<br>
+                                • Pitavastatin 1-4 mg
+                            </td>
+                        </tr>
+                        <tr style="${intensity === 'low' ? 'background: #d4edda;' : ''}">
+                            <td><strong>Low-Intensity</strong></td>
+                            <td><30% reduction</td>
+                            <td>
+                                • Simvastatin 10 mg<br>
+                                • Pravastatin 10-20 mg<br>
+                                • Lovastatin 20 mg<br>
+                                • Fluvastatin 20-40 mg
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+            
+            html += `
+                <h4 style="margin-top: 20px; color: #f39c12;">Clinical Pearls:</h4>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Atorvastatin and Rosuvastatin</strong> are the most potent statins</li>
+                    <li><strong>Timing:</strong> Can be taken any time of day (except simvastatin - evening preferred)</li>
+                    <li><strong>Monitoring:</strong> Check LDL at 4-12 weeks, then every 3-12 months</li>
+                    <li><strong>Side Effects:</strong> Myalgias (5-10%), rare rhabdomyolysis, increased LFTs (transient)</li>
+                    <li><strong>Drug Interactions:</strong> Avoid grapefruit juice with atorvastatin/simvastatin/lovastatin</li>
+                </ul>
+            `;
+            
+            html += `</div>`;
+            
+            html += generateLifestyleRecommendations();
+            
+            return html;
+        }
+        
+        function generateNonStatinTherapy(ldl, onEzetimibe, veryHighRisk) {
+            let html = `
+                <div class="results-box">
+                    <h3>💊 Non-Statin Lipid-Lowering Therapies</h3>
+                    <p><strong>Add to maximally tolerated statin when LDL ≥70 mg/dL (or ≥55 mg/dL in very high risk)</strong></p>
+                </div>
+            `;
+            
+            // Ezetimibe
+            html += `
+                <div class="medication-card">
+                    <h4>Ezetimibe (Zetia) - FIRST ADD-ON</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Mechanism:</span>
+                        <span>Cholesterol absorption inhibitor (inhibits NPC1L1 in small intestine)</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">LDL Reduction:</span>
+                        <span>~20-25% additional reduction</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Dosing:</span>
+                        <span>10 mg PO daily (can take with or without food)</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Evidence:</span>
+                        <span>IMPROVE-IT trial: Added to statin, reduced CV events in ACS patients</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Side Effects:</span>
+                        <span>Generally well-tolerated. Rare: myalgias, diarrhea, elevated LFTs</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Cost:</span>
+                        <span>$$ (~$50-100/month generic)</span>
+                    </div>
+                    ${!onEzetimibe ? '<p style="margin-top: 10px; background: #d4edda; padding: 10px; border-radius: 4px;"><strong>✓ RECOMMENDED:</strong> Add ezetimibe to current statin regimen</p>' : '<p style="margin-top: 10px; background: #fff3cd; padding: 10px; border-radius: 4px;"><strong>Already on ezetimibe.</strong> If LDL still not at goal, consider PCSK9 inhibitor.</p>'}
+                </div>
+            `;
+            
+            // PCSK9 Inhibitors (only if very high risk and LDL still elevated on statin + ezetimibe)
+            if (veryHighRisk && ldl >= 70 && onEzetimibe) {
+                html += `
+                    <div class="medication-card">
+                        <h4>PCSK9 Inhibitors - FOR VERY HIGH RISK</h4>
+                        <div class="med-detail-row">
+                            <span class="med-label">Indications:</span>
+                            <span>Very high-risk ASCVD patients with LDL ≥70 mg/dL on maximally tolerated statin + ezetimibe</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Options:</span>
+                            <span>
+                                • <strong>Evolocumab (Repatha)</strong> 140 mg SC q2 weeks or 420 mg SC monthly<br>
+                                • <strong>Alirocumab (Praluent)</strong> 75-150 mg SC q2 weeks or 300 mg SC monthly<br>
+                                • <strong>Inclisiran (Leqvio)</strong> 284 mg SC: initial dose, at 3 months, then q6 months
+                            </span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">LDL Reduction:</span>
+                            <span>50-60% additional reduction</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Evidence:</span>
+                            <span>FOURIER (evolocumab), ODYSSEY (alirocumab): Reduced CV events in high-risk ASCVD</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Side Effects:</span>
+                            <span>Injection site reactions, nasopharyngitis, myalgias</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Cost:</span>
+                            <span>$$$$ (~$5,800-6,500/year) - REQUIRES PRIOR AUTHORIZATION</span>
+                        </div>
+                        <p style="margin-top: 10px; background: #fff3cd; padding: 10px; border-radius: 4px;"><strong>⚠️ Insurance Note:</strong> Most insurers require documented trial of high-intensity statin + ezetimibe with LDL ≥70 mg/dL before approving PCSK9 inhibitors.</p>
+                    </div>
+                `;
+            }
+            
+            // Bempedoic Acid
+            html += `
+                <div class="medication-card">
+                    <h4>Bempedoic Acid (Nexletol) - ALTERNATIVE</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Mechanism:</span>
+                        <span>ATP citrate lyase inhibitor (works upstream of statins)</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Indications:</span>
+                        <span>Statin-intolerant patients or as add-on to statin</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Dosing:</span>
+                        <span>180 mg PO daily</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">LDL Reduction:</span>
+                        <span>~15-25%</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Evidence:</span>
+                        <span>CLEAR Outcomes trial: Reduced CV events in statin-intolerant patients</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Side Effects:</span>
+                        <span>Hyperuricemia/gout, tendon rupture (rare), increased uric acid</span>
+                    </div>
+                </div>
+            `;
+            
+            // Icosapent Ethyl (if high triglycerides)
+            if (patientData.trig && patientData.trig >= 150) {
+                html += `
+                    <div class="medication-card">
+                        <h4>Icosapent Ethyl (Vascepa) - FOR ELEVATED TRIGLYCERIDES</h4>
+                        <div class="med-detail-row">
+                            <span class="med-label">Indications:</span>
+                            <span>ASCVD or diabetes with triglycerides 150-499 mg/dL on statin</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Dosing:</span>
+                            <span>2 grams PO BID with food (total 4 grams/day)</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Evidence:</span>
+                            <span>REDUCE-IT trial: 25% reduction in CV events (purified EPA only, not fish oil)</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Side Effects:</span>
+                            <span>Increased risk of atrial fibrillation (3% vs 2%), bleeding (rare)</span>
+                        </div>
+                        <div class="med-detail-row">
+                            <span class="med-label">Important:</span>
+                            <span>NOT the same as OTC fish oil. Prescription only.</span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            return html;
+        }
+        
+        function generateLifestyleRecommendations() {
+            return `
+                <div class="results-box">
+                    <h3>🏃 Lifestyle Modifications (ALL Patients)</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Intervention</th>
+                                <th>Recommendation</th>
+                                <th>Expected LDL Reduction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Diet</strong></td>
+                                <td>
+                                    • Reduce saturated fat (<7% of calories)<br>
+                                    • Reduce trans fats<br>
+                                    • Increase plant stanols/sterols (2g/day)<br>
+                                    • Increase soluble fiber (10-25g/day)<br>
+                                    • Mediterranean diet pattern
+                                </td>
+                                <td>5-10%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Weight Loss</strong></td>
+                                <td>Achieve and maintain BMI 18.5-24.9 kg/m² or lose 5-10% body weight</td>
+                                <td>5-10%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Physical Activity</strong></td>
+                                <td>150 min/week moderate aerobic activity + resistance training 2x/week</td>
+                                <td>3-5%</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Smoking Cessation</strong></td>
+                                <td>Complete cessation (counseling + pharmacotherapy)</td>
+                                <td>No direct LDL effect, but major CV benefit</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+        
+        function generateBillingCodes() {
+            let icd10 = '';
+            let cpt = '';
+            
+            if (patientData.scenario === 'secondary') {
+                icd10 = `
+                    <p><strong>E78.00</strong> - Pure hypercholesterolemia, unspecified</p>
+                    <p style="font-size: 13px; color: #666;">OR <strong>E78.01</strong> (Familial hypercholesterolemia) if applicable</p>
+                `;
+                
+                if (patientData.ascvdTypes) {
+                    if (patientData.ascvdTypes.includes('cad')) {
+                        icd10 += '<p><strong>I25.10</strong> - Atherosclerotic heart disease of native coronary artery</p>';
+                    }
+                    if (patientData.ascvdTypes.includes('mi')) {
+                        icd10 += '<p><strong>I25.2</strong> - Old myocardial infarction</p>';
+                    }
+                    if (patientData.ascvdTypes.includes('stroke')) {
+                        icd10 += '<p><strong>I69.3</strong> - Sequelae of cerebral infarction</p>';
+                    }
+                    if (patientData.ascvdTypes.includes('pad')) {
+                        icd10 += '<p><strong>I70.209</strong> - Atherosclerosis of native arteries of extremities</p>';
+                    }
+                }
+            } else {
+                if (patientData.ldl >= 190) {
+                    icd10 = '<p><strong>E78.01</strong> - Familial hypercholesterolemia (consider if LDL ≥190)</p>';
+                } else {
+                    icd10 = '<p><strong>E78.00</strong> - Pure hypercholesterolemia, unspecified</p>';
+                }
+                
+                if (patientData.diabetes) {
+                    icd10 += '<p><strong>E11.9</strong> - Type 2 diabetes mellitus</p>';
+                }
+            }
+            
+            cpt = `
+                <p><strong>99203-99205</strong> - New patient office visit (level 3-5 based on complexity)</p>
+                <p><strong>99213-99215</strong> - Established patient office visit</p>
+                <p><strong>99401-99407</strong> - Preventive counseling (tobacco, diet)</p>
+                <p style="margin-top: 10px; font-size: 13px;"><strong>Lab CPT Codes:</strong> 80061 (Lipid panel), 83721 (LDL direct), 82465 (HDL), 84478 (Triglycerides)</p>
+            `;
+            
+            document.getElementById('billingCodes').innerHTML = `
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h4 style="color: #f39c12; margin-bottom: 10px;">ICD-10 Diagnosis Codes:</h4>
+                    ${icd10}
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 8px;">
+                    <h4 style="color: #f39c12; margin-bottom: 10px;">CPT Procedure Codes:</h4>
+                    ${cpt}
+                </div>
+            `;
+        }
+        
+        function generateFollowUp(type) {
+            let schedule = '';
+            
+            if (type === 'primary') {
+                schedule = `
+                    <p><strong>Initial Follow-Up:</strong></p>
+                    <ul>
+                        <li>4-12 weeks after starting statin - Check fasting lipid panel, assess tolerance</li>
+                        <li>Goal: Assess LDL reduction (should see ≥30% for moderate-intensity, ≥50% for high-intensity)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Routine Monitoring:</strong></p>
+                    <ul>
+                        <li><strong>Lipid panel:</strong> Every 3-12 months (depending on stability)</li>
+                        <li><strong>Liver function tests (AST/ALT):</strong> No routine monitoring needed unless symptoms</li>
+                        <li><strong>CK:</strong> Only if muscle symptoms (myalgias, weakness)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Address Statin Side Effects:</strong></p>
+                    <ul>
+                        <li>Myalgias: Try different statin, reduce dose, or alternate-day dosing</li>
+                        <li>If truly statin-intolerant: Consider ezetimibe or bempedoic acid</li>
+                    </ul>
+                `;
+            } else {
+                schedule = `
+                    <p><strong>Initial Follow-Up (Secondary Prevention):</strong></p>
+                    <ul>
+                        <li>4-12 weeks after medication change - Check fasting lipid panel</li>
+                        <li>Goal: LDL <70 mg/dL (consider <55 mg/dL if very high risk)</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>Routine Monitoring:</strong></p>
+                    <ul>
+                        <li><strong>Every 3-6 months</strong> until LDL at goal and stable</li>
+                        <li><strong>Annually</strong> once at goal: Lipid panel, assess adherence, reinforce lifestyle</li>
+                    </ul>
+                    <p style="margin-top: 15px;"><strong>If LDL Not at Goal:</strong></p>
+                    <ul>
+                        <li>Ensure adherence to high-intensity statin</li>
+                        <li>Add ezetimibe if not already on it</li>
+                        <li>Consider PCSK9 inhibitor if very high risk and LDL ≥70 mg/dL on statin + ezetimibe</li>
+                    </ul>
+                `;
+            }
+            
+            document.getElementById('followupSchedule').innerHTML = schedule;
+        }
+        
+        function restart() {
+            // Reset all inputs
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+            document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+            document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+            
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show first step
+            document.getElementById('step1').classList.add('active');
+            patientData = {};
+            currentStep = 1;
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+        
+        // Initialize progress bar
+        updateProgress();
+    </script>
+</body>
+</html>

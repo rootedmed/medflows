@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Hypertension Management Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .disclaimer {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #856404;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .step {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .step.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step-title {
+            font-size: 22px;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        
+        .question {
+            margin-bottom: 25px;
+        }
+        
+        .question-text {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .input-group label {
+            min-width: 150px;
+            font-weight: 500;
+        }
+        
+        .input-group input[type="number"],
+        .input-group input[type="text"] {
+            padding: 8px 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            width: 150px;
+        }
+        
+        .input-group input:focus {
+            outline: none;
+            border-color: #e74c3c;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-item:hover {
+            background: #e9ecef;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .checkbox-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .radio-item:hover {
+            background: #e9ecef;
+        }
+        
+        .radio-item input[type="radio"] {
+            margin-right: 12px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .radio-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        
+        .btn-restart {
+            background: #28a745;
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-restart:hover {
+            background: #218838;
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            color: #856404;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        
+        .alert-info {
+            background: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            color: #0c5460;
+        }
+        
+        .alert h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .alert ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        
+        .alert li {
+            margin-bottom: 5px;
+        }
+        
+        .results-section {
+            margin-top: 20px;
+        }
+        
+        .results-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .results-box h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .results-box ul {
+            margin-left: 20px;
+        }
+        
+        .results-box li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+        
+        .medication-card {
+            background: white;
+            border: 2px solid #e74c3c;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .medication-card h4 {
+            color: #e74c3c;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .medication-card p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .med-detail-row {
+            display: grid;
+            grid-template-columns: 180px 1fr;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .med-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .bp-stage-card {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid;
+        }
+        
+        .bp-normal {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .bp-elevated {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+        
+        .bp-stage1 {
+            background: #ffeaa7;
+            border-color: #fd9c2a;
+        }
+        
+        .bp-stage2 {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .bp-crisis {
+            background: #d6242a;
+            border-color: #8b0000;
+            color: white;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: #e9ecef;
+            margin: 20px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            transition: width 0.3s;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 12px;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+        }
+        
+        .comparison-table th {
+            background: #e74c3c;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 14px;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🩺 Comprehensive Hypertension Management</h1>
+            <p>Based on 2025 ACC/AHA Guidelines | From Diagnosis to Treatment</p>
+        </div>
+        
+        <div class="disclaimer">
+            ⚠️ <strong>Clinical Decision Support Tool:</strong> This tool follows 2025 ACC/AHA guidelines for hypertension management. It does not replace clinical judgment. Always consider patient-specific factors and consult current guidelines.
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+        
+        <div class="content">
+            <!-- Step 1: BP Measurement & Staging -->
+            <div class="step active" id="step1">
+                <div class="step-title">Step 1: Blood Pressure Measurement & Staging</div>
+                
+                <div class="alert alert-info">
+                    <h3>📋 Proper BP Measurement Technique</h3>
+                    <ul>
+                        <li>Patient seated quietly for 5 minutes, back supported, feet flat, arm at heart level</li>
+                        <li>Appropriate cuff size (bladder width 40% of arm circumference)</li>
+                        <li>Take 2-3 measurements, 1-2 minutes apart; use average</li>
+                        <li>Confirm elevated readings on separate occasions before diagnosis</li>
+                        <li>Consider home BP monitoring or ambulatory BP monitoring (ABPM) for confirmation</li>
+                    </ul>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Enter Patient's Blood Pressure (average of 2-3 readings):</div>
+                    <div class="input-group">
+                        <label>Systolic BP (mmHg):</label>
+                        <input type="number" id="systolic" min="80" max="250" placeholder="120">
+                    </div>
+                    <div class="input-group">
+                        <label>Diastolic BP (mmHg):</label>
+                        <input type="number" id="diastolic" min="40" max="150" placeholder="80">
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Patient Demographics & Risk Factors:</div>
+                    <div class="input-group">
+                        <label>Age (years):</label>
+                        <input type="number" id="age" min="18" max="120" placeholder="45">
+                    </div>
+                    <div class="input-group">
+                        <label>Gender:</label>
+                        <select id="gender" style="padding: 8px 12px; border: 2px solid #e9ecef; border-radius: 6px; font-size: 14px; width: 150px;">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Select ALL that apply (for risk stratification):</div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="established_ascvd" name="riskfactor" value="established_ascvd">
+                            <label for="established_ascvd">Established ASCVD (CAD, MI, stroke, TIA, PAD)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="diabetes" name="riskfactor" value="diabetes">
+                            <label for="diabetes">Diabetes Mellitus</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ckd" name="riskfactor" value="ckd">
+                            <label for="ckd">Chronic Kidney Disease (eGFR <60 or albuminuria)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="age65plus" name="riskfactor" value="age65plus">
+                            <label for="age65plus">Age ≥65 years</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-primary" onclick="assessBP()">Assess BP & Continue</button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Secondary HTN Screening -->
+            <div class="step" id="step2">
+                <div class="step-title">Step 2: Screen for Secondary Hypertension</div>
+                
+                <div class="alert alert-warning">
+                    <h3>🔍 When to Suspect Secondary HTN</h3>
+                    <p>Consider secondary causes in:</p>
+                    <ul>
+                        <li>Age <30 years with hypertension (30% have secondary cause)</li>
+                        <li>Resistant hypertension (uncontrolled on ≥3 drugs including diuretic)</li>
+                        <li>Abrupt onset or worsening of previously controlled HTN</li>
+                        <li>Severe HTN (Stage 2) at presentation</li>
+                        <li>Specific clinical features suggestive of secondary causes</li>
+                    </ul>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>A. Medications & Substances That Raise BP:</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="nsaids" name="secondary" value="nsaids">
+                            <label for="nsaids">NSAIDs (ibuprofen, naproxen, etc.)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="steroids" name="secondary" value="steroids">
+                            <label for="steroids">Corticosteroids (prednisone, dexamethasone)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="decongestants" name="secondary" value="decongestants">
+                            <label for="decongestants">Decongestants (pseudoephedrine, phenylephrine)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="stimulants" name="secondary" value="stimulants">
+                            <label for="stimulants">Stimulants (amphetamines, methylphenidate, cocaine, methamphetamine)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="oral_contraceptives" name="secondary" value="oral_contraceptives">
+                            <label for="oral_contraceptives">Combined oral contraceptives (estrogen + progestin)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="excess_alcohol" name="secondary" value="excess_alcohol">
+                            <label for="excess_alcohol">Excessive alcohol use (>2 drinks/day men, >1 drink/day women)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="licorice" name="secondary" value="licorice">
+                            <label for="licorice">Licorice or herbal supplements</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>B. Clinical Features of Endocrine Hypertension:</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="hypokalemia" name="secondary" value="hypokalemia">
+                            <label for="hypokalemia">Hypokalemia (K+ <3.5) - especially if unprovoked or on diuretics</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="palpitations_headache" name="secondary" value="palpitations_headache">
+                            <label for="palpitations_headache">Episodic HTN with palpitations, headache, sweating (pheo symptoms)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="cushingoid" name="secondary" value="cushingoid">
+                            <label for="cushingoid">Cushingoid features (moon face, central obesity, striae, easy bruising)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="thyroid_symptoms" name="secondary" value="thyroid_symptoms">
+                            <label for="thyroid_symptoms">Thyroid symptoms (weight changes, tremor, palpitations)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="acromegaly" name="secondary" value="acromegaly">
+                            <label for="acromegaly">Acromegalic features (enlarged hands, feet, facial features)</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text"><strong>C. Renal & Other Causes:</strong></div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ckd_history" name="secondary" value="ckd_history">
+                            <label for="ckd_history">Known chronic kidney disease or abnormal renal function</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="abdominal_bruit" name="secondary" value="abdominal_bruit">
+                            <label for="abdominal_bruit">Abdominal bruit (suggests renal artery stenosis)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="osa_symptoms" name="secondary" value="osa_symptoms">
+                            <label for="osa_symptoms">Obstructive sleep apnea symptoms (snoring, daytime fatigue, witnessed apneas)</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="adrenal_mass" name="secondary" value="adrenal_mass">
+                            <label for="adrenal_mass">Adrenal mass/incidentaloma ≥1 cm on imaging</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="coarctation" name="secondary" value="coarctation">
+                            <label for="coarctation">Upper extremity HTN with lower extremity BP difference >20 mmHg</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="previousStep(2)">Back</button>
+                    <button class="btn-primary" onclick="checkSecondaryHTN()">Continue to Workup</button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Initial Workup -->
+            <div class="step" id="step3">
+                <div class="step-title">Step 3: Initial Workup & Laboratory Tests</div>
+                
+                <div class="alert alert-info">
+                    <h3>🔬 Essential Laboratory Tests for All Patients with Hypertension</h3>
+                </div>
+                
+                <div class="results-box">
+                    <h3>Standard Workup (All Patients):</h3>
+                    <ul>
+                        <li><strong>Basic Metabolic Panel (BMP) or CMP</strong>
+                            <ul>
+                                <li>Sodium, potassium, chloride, bicarbonate</li>
+                                <li>Blood urea nitrogen (BUN), creatinine → Calculate eGFR</li>
+                                <li>Glucose (fasting preferred)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Fasting Lipid Panel</strong>
+                            <ul>
+                                <li>Total cholesterol, LDL, HDL, triglycerides</li>
+                                <li>Needed for PREVENT cardiovascular risk calculation</li>
+                            </ul>
+                        </li>
+                        <li><strong>Urinalysis</strong>
+                            <ul>
+                                <li>Assess for proteinuria, hematuria</li>
+                                <li>If proteinuria present → quantify with urine albumin-to-creatinine ratio (UACR)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Electrocardiogram (ECG/EKG)</strong>
+                            <ul>
+                                <li>Screen for left ventricular hypertrophy (LVH), arrhythmias, prior MI</li>
+                            </ul>
+                        </li>
+                        <li><strong>HbA1c</strong> (if not recently checked or diabetes suspected)</li>
+                        <li><strong>TSH</strong> (thyroid screening)</li>
+                    </ul>
+                </div>
+                
+                <div class="results-box" id="secondaryWorkupBox" style="display: none;">
+                    <h3>🔍 Additional Tests for Secondary Hypertension Screening:</h3>
+                    <div id="secondaryWorkupContent"></div>
+                </div>
+                
+                <div class="question">
+                    <div class="question-text">Is this patient's BP currently uncontrolled despite lifestyle modifications?</div>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="uncontrolled_yes" name="bpcontrol" value="yes">
+                            <label for="uncontrolled_yes">Yes - BP remains elevated</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="uncontrolled_no" name="bpcontrol" value="no">
+                            <label for="uncontrolled_no">No - BP controlled with lifestyle only</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="new_diagnosis" name="bpcontrol" value="new">
+                            <label for="new_diagnosis">New diagnosis - not yet tried lifestyle modifications</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="previousStep(3)">Back</button>
+                    <button class="btn-primary" onclick="showTreatment()">View Treatment Plan</button>
+                </div>
+            </div>
+            
+            <!-- Step 4: Treatment & Medication Selection -->
+            <div class="step" id="step4">
+                <div class="step-title">Step 4: Treatment Plan & Medication Selection</div>
+                
+                <div id="bpStagingResult"></div>
+                <div id="treatmentRecommendation"></div>
+                
+                <div class="results-box">
+                    <h3>🏃 Lifestyle Modifications (ALL Patients Regardless of Stage):</h3>
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Intervention</th>
+                                <th>Recommendation</th>
+                                <th>Expected BP Reduction</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Weight Loss</strong></td>
+                                <td>Achieve and maintain BMI 18.5-24.9 kg/m² or lose ≥5% body weight</td>
+                                <td>5-20 mmHg per 10 kg lost</td>
+                            </tr>
+                            <tr>
+                                <td><strong>DASH Diet</strong></td>
+                                <td>Rich in fruits, vegetables, whole grains, low-fat dairy, lean protein</td>
+                                <td>8-14 mmHg</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Sodium Reduction</strong></td>
+                                <td>Limit to <2.3 g/day (ideally <1.5 g/day for greater benefit)</td>
+                                <td>2-8 mmHg</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Potassium Increase</strong></td>
+                                <td>3.5-5 g/day from dietary sources (if no CKD)</td>
+                                <td>4-5 mmHg</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Physical Activity</strong></td>
+                                <td>150 min/week moderate aerobic + resistance training 2x/week</td>
+                                <td>5-8 mmHg</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Alcohol Limitation</strong></td>
+                                <td>≤2 drinks/day (men), ≤1 drink/day (women)</td>
+                                <td>2-4 mmHg</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div id="medicationSection"></div>
+                
+                <div class="results-box" style="background: #e7f3ff; border-left: 4px solid #e74c3c;">
+                    <h3>💳 ICD-10 & CPT Billing Codes</h3>
+                    <div id="billingCodes"></div>
+                </div>
+                
+                <div class="results-box">
+                    <h3>📅 Follow-Up Schedule:</h3>
+                    <div id="followupSchedule"></div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-restart" onclick="restart()">Start New Assessment</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            Based on 2025 ACC/AHA High Blood Pressure Guideline | For educational purposes only
+        </div>
+    </div>
+    
+    <script>
+        let currentStep = 1;
+        let patientData = {};
+        
+        const medications = {
+            ace_inhibitors: {
+                name: "ACE Inhibitors",
+                examples: ["Lisinopril 10-40mg daily", "Enalapril 5-40mg daily (or BID)", "Ramipril 2.5-20mg daily"],
+                indications: "First-line for diabetes, CKD with albuminuria, heart failure, post-MI",
+                contraindications: "Pregnancy, bilateral renal artery stenosis, angioedema history, hyperkalemia",
+                sideEffects: "Dry cough (10-20%), hyperkalemia, angioedema (rare), acute kidney injury",
+                monitoring: "BMP at 2-4 weeks (check K+, Cr), then every 3-6 months",
+                notes: "Preferred in diabetes with albuminuria (renoprotective). Cough may require switch to ARB."
+            },
+            arbs: {
+                name: "Angiotensin Receptor Blockers (ARBs)",
+                examples: ["Losartan 50-100mg daily", "Valsartan 80-320mg daily", "Telmisartan 40-80mg daily"],
+                indications: "Alternative to ACE-I if cough develops; CKD, diabetes, heart failure",
+                contraindications: "Pregnancy, bilateral renal artery stenosis, hyperkalemia",
+                sideEffects: "Hyperkalemia, dizziness, acute kidney injury (similar to ACE-I but no cough)",
+                monitoring: "BMP at 2-4 weeks, then every 3-6 months",
+                notes: "Similar efficacy to ACE-I. Do NOT combine ACE-I + ARB (increases risk without benefit)."
+            },
+            ccb_nondhp: {
+                name: "Non-Dihydropyridine CCBs",
+                examples: ["Diltiazem ER 120-360mg daily", "Verapamil ER 120-480mg daily"],
+                indications: "Alternative first-line; good for Afib rate control",
+                contraindications: "Heart block (2nd/3rd degree), severe LV dysfunction, bradycardia",
+                sideEffects: "Bradycardia, constipation (verapamil), peripheral edema",
+                monitoring: "HR, BP. Caution with beta-blockers (additive bradycardia)",
+                notes: "Negatively chronotropic. Good for rate control in Afib."
+            },
+            ccb_dhp: {
+                name: "Dihydropyridine CCBs",
+                examples: ["Amlodipine 5-10mg daily", "Nifedipine XL 30-90mg daily"],
+                indications: "First-line; excellent for isolated systolic HTN, elderly",
+                contraindications: "None absolute; use caution in severe aortic stenosis",
+                sideEffects: "Peripheral edema (dose-dependent), flushing, headache, reflex tachycardia",
+                monitoring: "BP, edema",
+                notes: "Very effective for BP reduction. Edema improved by adding ACE-I/ARB."
+            },
+            thiazides: {
+                name: "Thiazide/Thiazide-like Diuretics",
+                examples: ["Chlorthalidone 12.5-25mg daily (preferred)", "Hydrochlorothiazide (HCTZ) 12.5-50mg daily", "Indapamide 1.25-2.5mg daily"],
+                indications: "First-line; especially effective in Black patients, elderly, isolated systolic HTN",
+                contraindications: "Gout (relative), severe hyponatremia, sulfa allergy (rare cross-reactivity)",
+                sideEffects: "Hypokalemia, hyponatremia, hyperuricemia, hyperglycemia, hyperlipidemia",
+                monitoring: "BMP at 2-4 weeks (check Na+, K+), then every 3-6 months",
+                notes: "Chlorthalidone > HCTZ for CV outcomes. Monitor electrolytes closely."
+            },
+            beta_blockers: {
+                name: "Beta-Blockers",
+                examples: ["Metoprolol succinate 25-200mg daily", "Carvedilol 6.25-25mg BID", "Atenolol 25-100mg daily"],
+                indications: "NOT first-line for HTN alone. Use if compelling indication: CAD, heart failure, post-MI, Afib",
+                contraindications: "Asthma/severe COPD, heart block, bradycardia, decompensated HF",
+                sideEffects: "Fatigue, bradycardia, bronchospasm, erectile dysfunction, masking hypoglycemia",
+                monitoring: "HR, BP, signs of HF exacerbation",
+                notes: "Less effective than other classes for primary HTN. Reserve for specific indications."
+            },
+            spironolactone: {
+                name: "Aldosterone Antagonists",
+                examples: ["Spironolactone 25-50mg daily", "Eplerenone 50-100mg daily"],
+                indications: "Resistant HTN (4th-line), heart failure, primary aldosteronism",
+                contraindications: "Hyperkalemia (K+ >5.0), severe CKD (eGFR <30), concurrent K+-sparing diuretics",
+                sideEffects: "Hyperkalemia, gynecomastia (spironolactone), menstrual irregularities",
+                monitoring: "BMP at 1 week, 1 month, then every 3 months (close K+ monitoring)",
+                notes: "Highly effective for resistant HTN. Eplerenone has fewer hormonal side effects."
+            }
+        };
+        
+        function updateProgress() {
+            const progress = (currentStep / 4) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+        
+        function showStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step' + stepNumber).classList.add('active');
+            currentStep = stepNumber;
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+        
+        function previousStep(fromStep) {
+            showStep(fromStep - 1);
+        }
+        
+        function assessBP() {
+            const systolic = parseInt(document.getElementById('systolic').value);
+            const diastolic = parseInt(document.getElementById('diastolic').value);
+            const age = parseInt(document.getElementById('age').value);
+            
+            if (!systolic || !diastolic || !age) {
+                alert('Please enter systolic BP, diastolic BP, and age');
+                return;
+            }
+            
+            if (systolic < 80 || systolic > 250 || diastolic < 40 || diastolic > 150) {
+                alert('Please enter valid BP values');
+                return;
+            }
+            
+            patientData.systolic = systolic;
+            patientData.diastolic = diastolic;
+            patientData.age = age;
+            patientData.gender = document.getElementById('gender').value;
+            
+            // Collect risk factors
+            const riskFactors = document.querySelectorAll('input[name="riskfactor"]:checked');
+            patientData.riskFactors = Array.from(riskFactors).map(rf => rf.value);
+            
+            // Determine if high risk
+            patientData.highRisk = patientData.riskFactors.length > 0;
+            
+            // Check for hypertensive crisis
+            if (systolic >= 180 || diastolic >= 120) {
+                alert('⚠️ HYPERTENSIVE CRISIS DETECTED!\n\nSystolic ≥180 and/or Diastolic ≥120\n\nImmediate evaluation required:\n- Assess for target organ damage (chest pain, shortness of breath, neurologic symptoms, vision changes)\n- If symptomatic (hypertensive emergency): Admit for IV antihypertensive therapy\n- If asymptomatic (hypertensive urgency): Consider oral agents and close follow-up\n- Do NOT lower BP too rapidly (risk of end-organ hypoperfusion)');
+            }
+            
+            showStep(2);
+        }
+        
+        function checkSecondaryHTN() {
+            const secondaryFactors = document.querySelectorAll('input[name="secondary"]:checked');
+            patientData.secondaryFactors = Array.from(secondaryFactors).map(sf => sf.value);
+            
+            // Generate secondary HTN workup recommendations
+            let workupHTML = '';
+            
+            if (patientData.secondaryFactors.includes('hypokalemia')) {
+                workupHTML += `
+                    <p><strong>🔬 Primary Aldosteronism Screening (NEW 2025 Guidelines):</strong></p>
+                    <ul>
+                        <li><strong>Aldosterone-to-Renin Ratio (ARR)</strong> - FIRST-LINE screening test
+                            <ul>
+                                <li>2025 Endocrine Society: Recommends UNIVERSAL screening of all HTN patients</li>
+                                <li>2025 ACC/AHA: Targeted screening in resistant HTN, hypokalemia, adrenal mass</li>
+                                <li>Correct hypokalemia before testing (affects renin/aldosterone)</li>
+                                <li>Hold aldosterone antagonists x4 weeks, ACE-I/ARBs x2 weeks if possible</li>
+                                <li>Positive if ARR >20-40 (lab-dependent) + aldosterone >15 ng/dL</li>
+                            </ul>
+                        </li>
+                        <li>If positive → Confirmatory testing (saline suppression test, oral sodium loading)</li>
+                        <li>If confirmed → Adrenal CT + consider adrenal vein sampling</li>
+                    </ul>
+                `;
+            }
+            
+            if (patientData.secondaryFactors.includes('palpitations_headache')) {
+                workupHTML += `
+                    <p><strong>🔬 Pheochromocytoma/Paraganglioma Screening:</strong></p>
+                    <ul>
+                        <li>24-hour urine metanephrines and catecholamines, OR</li>
+                        <li>Plasma free metanephrines (if available)</li>
+                        <li>If positive → Abdominal/pelvic CT or MRI to localize</li>
+                    </ul>
+                `;
+            }
+            
+            if (patientData.secondaryFactors.includes('cushingoid')) {
+                workupHTML += `
+                    <p><strong>🔬 Cushing Syndrome Screening:</strong></p>
+                    <ul>
+                        <li>24-hour urine free cortisol, OR</li>
+                        <li>Late-night salivary cortisol (2 samples), OR</li>
+                        <li>1mg overnight dexamethasone suppression test</li>
+                    </ul>
+                `;
+            }
+            
+            if (patientData.secondaryFactors.includes('thyroid_symptoms')) {
+                workupHTML += `
+                    <p><strong>🔬 Thyroid Screening:</strong></p>
+                    <ul>
+                        <li>TSH, Free T4</li>
+                        <li>Hyperthyroidism and hypothyroidism both can cause HTN</li>
+                    </ul>
+                `;
+            }
+            
+            if (patientData.secondaryFactors.includes('ckd_history') || patientData.secondaryFactors.includes('abdominal_bruit')) {
+                workupHTML += `
+                    <p><strong>🔬 Renovascular Hypertension Screening:</strong></p>
+                    <ul>
+                        <li>Consider if: Age <30 or >55, abdominal bruit, flash pulmonary edema, resistant HTN</li>
+                        <li>Renal artery duplex ultrasound (first-line, operator-dependent)</li>
+                        <li>CT angiography or MR angiography (more sensitive)</li>
+                        <li>Fibromuscular dysplasia more common in young women</li>
+                        <li>Atherosclerotic renal artery stenosis more common in elderly with ASCVD</li>
+                    </ul>
+                `;
+            }
+            
+            if (patientData.secondaryFactors.includes('osa_symptoms')) {
+                workupHTML += `
+                    <p><strong>🔬 Obstructive Sleep Apnea Screening:</strong></p>
+                    <ul>
+                        <li>Clinical assessment: STOP-BANG questionnaire</li>
+                        <li>Home sleep apnea test or in-lab polysomnography</li>
+                        <li>OSA present in 30-40% of hypertensive patients</li>
+                        <li>Treatment with CPAP can lower BP by 2-10 mmHg</li>
+                    </ul>
+                `;
+            }
+            
+            if (workupHTML) {
+                document.getElementById('secondaryWorkupBox').style.display = 'block';
+                document.getElementById('secondaryWorkupContent').innerHTML = workupHTML;
+            }
+            
+            showStep(3);
+        }
+        
+        function showTreatment() {
+            const bpControl = document.querySelector('input[name="bpcontrol"]:checked');
+            if (!bpControl) {
+                alert('Please indicate BP control status');
+                return;
+            }
+            
+            patientData.bpControl = bpControl.value;
+            
+            // Determine BP stage
+            let bpStage, bpStageText, bpClass;
+            
+            if (patientData.systolic >= 180 || patientData.diastolic >= 120) {
+                bpStage = 'crisis';
+                bpStageText = 'Hypertensive Crisis';
+                bpClass = 'bp-crisis';
+            } else if (patientData.systolic >= 140 || patientData.diastolic >= 90) {
+                bpStage = 'stage2';
+                bpStageText = 'Stage 2 Hypertension';
+                bpClass = 'bp-stage2';
+            } else if (patientData.systolic >= 130 || patientData.diastolic >= 80) {
+                bpStage = 'stage1';
+                bpStageText = 'Stage 1 Hypertension';
+                bpClass = 'bp-stage1';
+            } else if (patientData.systolic >= 120 && patientData.systolic < 130 && patientData.diastolic < 80) {
+                bpStage = 'elevated';
+                bpStageText = 'Elevated Blood Pressure';
+                bpClass = 'bp-elevated';
+            } else {
+                bpStage = 'normal';
+                bpStageText = 'Normal Blood Pressure';
+                bpClass = 'bp-normal';
+            }
+            
+            // Display BP staging
+            document.getElementById('bpStagingResult').innerHTML = `
+                <div class="bp-stage-card ${bpClass}">
+                    <h3>${bpStageText}</h3>
+                    <p><strong>BP: ${patientData.systolic}/${patientData.diastolic} mmHg</strong></p>
+                    <p>Target: <strong>&lt;130/80 mmHg</strong> (encouraged to reach <120 mmHg systolic)</p>
+                </div>
+            `;
+            
+            // Generate treatment recommendations
+            let treatmentHTML = '';
+            let medicationHTML = '';
+            
+            if (bpStage === 'normal') {
+                treatmentHTML = `
+                    <div class="alert alert-success">
+                        <h3>✓ Blood Pressure is Normal</h3>
+                        <p><strong>Recommendation:</strong> Continue healthy lifestyle. Recheck BP annually.</p>
+                    </div>
+                `;
+            } else if (bpStage === 'elevated') {
+                treatmentHTML = `
+                    <div class="alert alert-warning">
+                        <h3>Elevated BP - Lifestyle Modifications</h3>
+                        <p><strong>Recommendation:</strong> Intensive lifestyle modifications. No immediate pharmacotherapy unless high CV risk.</p>
+                        <p>Recheck BP in 3-6 months. If remains elevated and PREVENT risk ≥7.5%, initiate medication.</p>
+                    </div>
+                `;
+            } else if (bpStage === 'stage1') {
+                if (patientData.highRisk || patientData.age >= 65) {
+                    treatmentHTML = `
+                        <div class="alert alert-warning">
+                            <h3>Stage 1 HTN + High Risk → START MEDICATION</h3>
+                            <p><strong>Patient has high-risk features:</strong> ${patientData.riskFactors.map(rf => {
+                                if (rf === 'established_ascvd') return 'Established ASCVD';
+                                if (rf === 'diabetes') return 'Diabetes';
+                                if (rf === 'ckd') return 'CKD';
+                                if (rf === 'age65plus') return 'Age ≥65';
+                            }).join(', ')}</p>
+                            <p><strong>Recommendation:</strong> Initiate pharmacotherapy + lifestyle modifications</p>
+                        </div>
+                    `;
+                    medicationHTML = generateMedicationRecommendations();
+                } else {
+                    treatmentHTML = `
+                        <div class="alert alert-info">
+                            <h3>Stage 1 HTN + Lower Risk</h3>
+                            <p><strong>Recommendation:</strong> Lifestyle modifications for 3-6 months</p>
+                            <p>If BP remains ≥130/80 after 3-6 months → Initiate pharmacotherapy</p>
+                            <p><em>Note: 2025 guideline emphasizes PREVENT risk assessment. If PREVENT risk <7.5%, trial lifestyle first. If risk ≥7.5%, consider earlier medication.</em></p>
+                        </div>
+                    `;
+                }
+            } else if (bpStage === 'stage2' || bpStage === 'crisis') {
+                treatmentHTML = `
+                    <div class="alert alert-danger">
+                        <h3>${bpStage === 'crisis' ? '⚠️ Hypertensive Crisis' : 'Stage 2 HTN'} → IMMEDIATE PHARMACOTHERAPY</h3>
+                        <p><strong>Recommendation:</strong> Initiate TWO antihypertensive agents immediately (if BP >20/10 mmHg above goal)</p>
+                        <p>Goal: <strong>&lt;130/80 mmHg</strong> (encouraged &lt;120 systolic)</p>
+                    </div>
+                `;
+                medicationHTML = generateMedicationRecommendations(true);
+            }
+            
+            document.getElementById('treatmentRecommendation').innerHTML = treatmentHTML;
+            document.getElementById('medicationSection').innerHTML = medicationHTML;
+            
+            // Generate billing codes
+            generateBillingCodes(bpStage);
+            
+            // Generate follow-up schedule
+            generateFollowUpSchedule(bpStage);
+            
+            showStep(4);
+        }
+        
+        function generateMedicationRecommendations(dualTherapy = false) {
+            let html = `<div class="results-box"><h3>💊 Recommended Antihypertensive Medications:</h3>`;
+            
+            if (dualTherapy) {
+                html += `
+                    <div class="alert alert-warning">
+                        <strong>Dual Therapy Recommended:</strong> BP >20/10 mmHg above goal → Start TWO medications from different classes
+                    </div>
+                `;
+            }
+            
+            html += `<p><strong>First-Line Options (choose based on patient factors):</strong></p>`;
+            
+            // ACE Inhibitors
+            html += `
+                <div class="medication-card">
+                    <h4>${medications.ace_inhibitors.name}</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Examples:</span>
+                        <span>${medications.ace_inhibitors.examples.join(', ')}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Indications:</span>
+                        <span>${medications.ace_inhibitors.indications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Contraindications:</span>
+                        <span>${medications.ace_inhibitors.contraindications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Side Effects:</span>
+                        <span>${medications.ace_inhibitors.sideEffects}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Monitoring:</span>
+                        <span>${medications.ace_inhibitors.monitoring}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Clinical Pearls:</span>
+                        <span>${medications.ace_inhibitors.notes}</span>
+                    </div>
+                </div>
+            `;
+            
+            // ARBs
+            html += `
+                <div class="medication-card">
+                    <h4>${medications.arbs.name}</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Examples:</span>
+                        <span>${medications.arbs.examples.join(', ')}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Indications:</span>
+                        <span>${medications.arbs.indications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Contraindications:</span>
+                        <span>${medications.arbs.contraindications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Side Effects:</span>
+                        <span>${medications.arbs.sideEffects}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Monitoring:</span>
+                        <span>${medications.arbs.monitoring}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Clinical Pearls:</span>
+                        <span>${medications.arbs.notes}</span>
+                    </div>
+                </div>
+            `;
+            
+            // DHPs
+            html += `
+                <div class="medication-card">
+                    <h4>${medications.ccb_dhp.name}</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Examples:</span>
+                        <span>${medications.ccb_dhp.examples.join(', ')}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Indications:</span>
+                        <span>${medications.ccb_dhp.indications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Contraindications:</span>
+                        <span>${medications.ccb_dhp.contraindications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Side Effects:</span>
+                        <span>${medications.ccb_dhp.sideEffects}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Monitoring:</span>
+                        <span>${medications.ccb_dhp.monitoring}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Clinical Pearls:</span>
+                        <span>${medications.ccb_dhp.notes}</span>
+                    </div>
+                </div>
+            `;
+            
+            // Thiazides
+            html += `
+                <div class="medication-card">
+                    <h4>${medications.thiazides.name}</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Examples:</span>
+                        <span>${medications.thiazides.examples.join(', ')}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Indications:</span>
+                        <span>${medications.thiazides.indications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Contraindications:</span>
+                        <span>${medications.thiazides.contraindications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Side Effects:</span>
+                        <span>${medications.thiazides.sideEffects}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Monitoring:</span>
+                        <span>${medications.thiazides.monitoring}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Clinical Pearls:</span>
+                        <span>${medications.thiazides.notes}</span>
+                    </div>
+                </div>
+            `;
+            
+            html += `
+                <p><strong>Second-Line / Special Situations:</strong></p>
+                <div class="medication-card">
+                    <h4>${medications.beta_blockers.name}</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Examples:</span>
+                        <span>${medications.beta_blockers.examples.join(', ')}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Indications:</span>
+                        <span>${medications.beta_blockers.indications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Contraindications:</span>
+                        <span>${medications.beta_blockers.contraindications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Side Effects:</span>
+                        <span>${medications.beta_blockers.sideEffects}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Monitoring:</span>
+                        <span>${medications.beta_blockers.monitoring}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Clinical Pearls:</span>
+                        <span>${medications.beta_blockers.notes}</span>
+                    </div>
+                </div>
+            `;
+            
+            html += `
+                <p><strong>Resistant Hypertension (≥3 drugs including diuretic):</strong></p>
+                <div class="medication-card">
+                    <h4>${medications.spironolactone.name}</h4>
+                    <div class="med-detail-row">
+                        <span class="med-label">Examples:</span>
+                        <span>${medications.spironolactone.examples.join(', ')}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Indications:</span>
+                        <span>${medications.spironolactone.indications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Contraindications:</span>
+                        <span>${medications.spironolactone.contraindications}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Side Effects:</span>
+                        <span>${medications.spironolactone.sideEffects}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Monitoring:</span>
+                        <span>${medications.spironolactone.monitoring}</span>
+                    </div>
+                    <div class="med-detail-row">
+                        <span class="med-label">Clinical Pearls:</span>
+                        <span>${medications.spironolactone.notes}</span>
+                    </div>
+                </div>
+            `;
+            
+            html += `</div>`;
+            
+            return html;
+        }
+        
+        function generateBillingCodes(bpStage) {
+            let icd10 = '';
+            let cpt = '';
+            
+            // ICD-10 codes
+            if (bpStage === 'normal') {
+                icd10 = '<p><strong>Z01.419</strong> - Encounter for gynecological examination (general, routine) without abnormal findings</p><p><em>No hypertension diagnosis code needed</em></p>';
+            } else if (bpStage === 'elevated') {
+                icd10 = '<p><strong>R03.0</strong> - Elevated blood pressure reading, without diagnosis of hypertension</p><p><em>Use this for elevated BP without confirmed HTN diagnosis. After confirmation on multiple visits, code as I10.</em></p>';
+            } else {
+                icd10 = '<p><strong>I10</strong> - Essential (primary) hypertension</p>';
+                
+                if (patientData.riskFactors.includes('diabetes')) {
+                    icd10 += '<p><strong>E11.9</strong> - Type 2 diabetes mellitus without complications</p>';
+                }
+                if (patientData.riskFactors.includes('ckd')) {
+                    icd10 += '<p><strong>N18.3</strong> - Chronic kidney disease, stage 3 (use appropriate stage)</p>';
+                    icd10 += '<p><strong>I12.9</strong> - Hypertensive chronic kidney disease with stage 1-4 CKD, or unspecified CKD</p>';
+                }
+                if (patientData.riskFactors.includes('established_ascvd')) {
+                    icd10 += '<p><strong>I25.10</strong> - Atherosclerotic heart disease of native coronary artery without angina</p>';
+                }
+            }
+            
+            // CPT codes
+            cpt = `
+                <p><strong>99203-99205</strong> - New patient office visit (level 3-5 based on complexity)</p>
+                <p><strong>99213-99215</strong> - Established patient office visit</p>
+                <p><strong>99406-99407</strong> - Smoking/tobacco use cessation counseling (if applicable)</p>
+                <p><strong>97802-97804</strong> - Medical nutrition therapy</p>
+                <p><strong>G0447</strong> - Face-to-face behavioral counseling for obesity (Medicare, if BMI ≥30)</p>
+                <p style="margin-top: 10px; font-size: 13px;"><strong>Lab CPT Codes:</strong> 80048 or 80053 (BMP/CMP), 80061 (Lipid panel), 81000-81003 (Urinalysis), 93000 (ECG), 83036 (HbA1c), 84443 (TSH)</p>
+            `;
+            
+            document.getElementById('billingCodes').innerHTML = `
+                <div style="background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h4 style="color: #e74c3c; margin-bottom: 10px;">ICD-10 Diagnosis Codes:</h4>
+                    ${icd10}
+                </div>
+                <div style="background: white; padding: 15px; border-radius: 8px;">
+                    <h4 style="color: #e74c3c; margin-bottom: 10px;">CPT Procedure Codes:</h4>
+                    ${cpt}
+                </div>
+            `;
+        }
+        
+        function generateFollowUpSchedule(bpStage) {
+            let schedule = '';
+            
+            if (bpStage === 'normal') {
+                schedule = '<p>• Recheck BP <strong>annually</strong></p><p>• Continue healthy lifestyle</p>';
+            } else if (bpStage === 'elevated') {
+                schedule = `
+                    <p>• Recheck BP in <strong>3-6 months</strong></p>
+                    <p>• Assess PREVENT cardiovascular risk</p>
+                    <p>• If BP remains ≥130/80 and risk ≥7.5% → initiate medication</p>
+                    <p>• Continue intensive lifestyle modifications</p>
+                `;
+            } else if (bpStage === 'stage1') {
+                if (patientData.bpControl === 'new' || patientData.bpControl === 'yes') {
+                    schedule = `
+                        <p>• <strong>Follow-up in 1 month</strong> after starting medication</p>
+                        <p>• Check BP, assess tolerance, review adherence</p>
+                        <p>• If BP not at goal → uptitrate or add second agent</p>
+                        <p>• Once at goal: Follow up every 3-6 months</p>
+                        <p>• Labs (BMP) at 2-4 weeks after medication start/dose change</p>
+                    `;
+                } else {
+                    schedule = '<p>• Lifestyle modifications for 3-6 months</p><p>• Recheck BP → If still elevated, initiate pharmacotherapy</p>';
+                }
+            } else {
+                schedule = `
+                    <p>• <strong>Close follow-up: 2-4 weeks</strong> after starting medications</p>
+                    <p>• Check BP, labs (BMP), assess side effects</p>
+                    <p>• Aggressive uptitration to reach goal BP <130/80 (target <120 systolic)</p>
+                    <p>• Once controlled: Follow up every 3 months initially, then every 6 months</p>
+                    <p>• Annual: ECG, lipids, urinalysis, assess for target organ damage</p>
+                `;
+            }
+            
+            if (patientData.secondaryFactors && patientData.secondaryFactors.length > 0) {
+                schedule += '<p style="margin-top: 15px;"><strong>⚠️ Secondary HTN Screening:</strong> Review results of recommended tests. Consider referral to nephrology/endocrinology if positive.</p>';
+            }
+            
+            document.getElementById('followupSchedule').innerHTML = schedule;
+        }
+        
+        function restart() {
+            // Reset all inputs
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+            document.querySelectorAll('input[type="number"]').forEach(input => input.value = '');
+            document.querySelectorAll('select').forEach(select => select.selectedIndex = 0);
+            
+            // Hide all steps
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show first step
+            document.getElementById('step1').classList.add('active');
+            patientData = {};
+            currentStep = 1;
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+        
+        // Initialize progress bar
+        updateProgress();
+    </script>
+</body>
+</html>
